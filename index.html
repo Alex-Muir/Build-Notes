@@ -8,16 +8,30 @@
 
   <body style="background-color:powderblue;">
     <h1>Build Notes</h1>
-    <form >
-        <label for="title">Title:</label><br>
-        <input type="text" id="title" name="title"><br>
-        <label for="content">Note Content</label><br>
-        <textarea name="content" id="content" rows="10" cols="40"></textarea>
-        <div>
-          <button type="submit">Submit</button>
-          <button type="reset">Reset</button>
-        </div>
-    </form>
+
+    <!-- Search Bar -->
+    <section>
+      <form>
+        <label for="search">Search:</label><br>
+        <input type="text" id="search" name="search">
+        <button type="submit">Search</button>
+      </form>
+    </section>
+
+    <!-- Title and Note Content -->
+    <section>
+      <h2>New Note</h2>
+      <form >
+          <label for="title">Title:</label><br>
+          <input type="text" id="title" name="title"><br>
+          <label for="content">Note Content:</label><br>
+          <textarea name="content" id="content" rows="10" cols="40"></textarea>
+          <div>
+            <button type="submit">Submit</button>
+            <button type="reset">Reset</button>
+          </div>
+      </form>
+    </section>
 
   </body>
 </html> 
