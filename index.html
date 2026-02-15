@@ -24,9 +24,11 @@
       <h2>New Note</h2>
       <form >
           <label for="title">Title:</label><br>
-          <input type="text" id="title" name="title"><br>
+          <input type="text" id="title" name="title" required><br>
           <label for="content">Note Content:</label><br>
-          <textarea name="content" id="content" rows="10" cols="40"></textarea>
+          <textarea name="content" id="content" rows="10" cols="40" required></textarea><br>
+          <label for="tags">Tags (Seperate by comma)</label><br>
+          <input type="text" id="tags" name="tags" placeholder="tag1,tag2,tag3"><br><br>
           <div>
             <button type="submit">Submit</button>
             <button type="reset">Reset</button>
