@@ -1,24 +1,46 @@
-//import readline from "readline/promises";
-
 // Create a new note from user input (title, content, and tags)
-async function createNote(rl) {
-    const title = (await rl.question("\nWhat is the note's title? ")).trim();
-    const content = (await rl.question("Please write your note: ")).trim();
-    const tags = []
-    while (true) {
-        let tag = (await rl.question("Enter a tag. Leave blank to skip. ")).trim();
-        if (!tag) break;
-        tags.push(tag);
-    } 
+function createNote(notes) {
+    const form = document.getElementById("noteForm");
+    const titleInput = document.getElementById("titleInput");
+    const contentInput = document.getElementById("contentInput");
+    const tagInput = document.getElementById("tagInput");
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const title = titleInput.value;
+        const content = contentInput.value;
+        const tagString = tagInput.value;
+
+        const tags = formatTags(tagString);
     
-    return {
-        id: Date.now(), 
-        title: title, 
-        content: content, 
-        tags: tags, 
-        createdAt: new Date(), 
-        editedAt: null
-    };
+        const note = {
+            id: Date.now(), 
+            title: title, 
+            content: content, 
+            tags: tags, 
+            createdAt: new Date(), 
+            editedAt: null
+        };
+
+        notes.push(note);
+        for(const note of notes) {
+            console.log(note);
+        }
+
+        form.reset();
+    });
+}
+
+function formatTags(tagString) {
+
+    if(!tagString) 
+        return []
+
+    return tagString
+        .split(",")
+        .map(tag => tag.trim())
+        .filter(tag => tag !== "");
 }
 
 // Remove a note
@@ -56,36 +78,11 @@ async function filterByTag(rl, notes) {
     return notesByTag;
 }
 
-async function main() {
+function main() {
+    console.log("In Main");
     const notes = [];
+    createNote(notes);
 
-    // Create user input interface
-    const readline = require("readline/promises");
-    const rl = readline.createInterface({
-        input: process.stdin, 
-        output: process.stdout
-        });
-
-    // Push several notes and print notes
-    notes.push(await createNote(rl));
-    notes.push(await createNote(rl));
-    notes.push(await createNote(rl));
-    console.log("\nNotes: ", notes);
-
-    // Update a notes content and print notes
-    await updateNote(rl, 1, notes)
-    console.log("\nUpdated Notes: ", notes);
-
-    // Filter notes by tag and print filtered notes
-    const filteredNotes = await filterByTag(rl, notes);
-    console.log("\nFiltered Notes: ", filteredNotes);
-
-    // Close user input interface
-    rl.close();
-
-    // Remove a note and print notes
-    removeNote(0, notes);
-    console.log("\nRemoved Notes: ", notes);
 }
 
 main();

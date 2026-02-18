@@ -12,9 +12,9 @@
     <!-- Search Bar -->
     <section>
       <h2>Search Notes</h2>
-      <form>
+      <form id="searchForm">
         <label for="search">Search:</label><br>
-        <input type="search" id="search" name="search">
+        <input type="search" id="searchInput" name="search">
         <button type="submit">Search</button>
       </form>
     </section><br><br>
@@ -22,19 +22,20 @@
     <!-- Title and Note Content -->
     <section>
       <h2>New Note</h2>
-      <form >
+      <form id="noteForm">
           <label for="title">Title:</label><br>
-          <input type="text" id="title" name="title" required><br>
+          <input type="text" id="titleInput" name="title" required><br>
           <label for="content">Note Content:</label><br>
-          <textarea name="content" id="content" rows="10" cols="40" required></textarea><br>
+          <textarea name="content" id="contentInput" rows="10" cols="40" required></textarea><br>
           <label for="tags">Tags (Seperate by comma)</label><br>
-          <input type="text" id="tags" name="tags" placeholder="tag1,tag2,tag3"><br><br>
+          <input type="text" id="tagInput" name="tags" placeholder="tag1,tag2,tag3"><br><br>
           <div>
             <button type="submit">Submit</button>
             <button type="reset">Reset</button>
           </div>
       </form>
     </section>
-
+    
+    <script src="note.js"></script>
   </body>
 </html> 
