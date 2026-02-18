@@ -24,6 +24,7 @@ function createNote(notes) {
         };
 
         notes.push(note);
+
         for(const note of notes) {
             console.log(note);
         }
@@ -32,6 +33,8 @@ function createNote(notes) {
     });
 }
 
+// Helper function for createNote() and filterByTag().
+// Separates tags and removes whitespace and empty strings. 
 function formatTags(tagString) {
 
     if(!tagString) 
@@ -49,39 +52,48 @@ function removeNote(index, notes) {
 }
 
 // Update (Edit) a note
-async function updateNote(rl, index, notes) {
+/*async function updateNote(rl, index, notes) {
     console.log(`\nThis is the note to edit: ${notes[index].content}`)
     const newContent = (await rl.question("What would you like to add? ")).trim();
     notes[index].content += " " + newContent;
     notes[index].editedAt = new Date();
-}
+}*/
 
 // Filter notes by tag
-async function filterByTag(rl, notes) {
-    const searchTags = [];
-    const notesByTag = [];
-    while(true) {
-        let tag = (await rl.question("\nWhat tag(s) would you like to search for? ")).trim();
-        if(!tag) break;
-        searchTags.push(tag);
-    }
+function filterByTag(notes) {
 
-    for (let i = 0; i < notes.length; i++) {
-        for (let j = 0; j < searchTags.length; j++) {
-            if(notes[i].tags.includes(searchTags[j])) {
-                notesByTag.push(notes[i]);
-                break
+    const form = document.getElementById("searchForm");
+    const searchInput = document.getElementById("searchInput");
+
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const searchFor = searchInput.value;
+        const searchTags = formatTags(searchFor);
+        const notesByTag = [];
+
+        for (let i = 0; i < notes.length; i++) {
+            for (let j = 0; j < searchTags.length; j++) {
+                if(notes[i].tags.includes(searchTags[j])) {
+                    notesByTag.push(notes[i]);
+                    break
+                }
             }
         }
-    }
 
-    return notesByTag;
+        for(const note of notesByTag) {
+            console.log(note);
+        }
+
+        form.reset();
+    });
 }
 
 function main() {
     console.log("In Main");
     const notes = [];
     createNote(notes);
+    filterByTag(notes);
 
 }
 
