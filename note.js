@@ -24,7 +24,8 @@ function createNote(notes) {
         };
 
         notes.push(note);
-
+        saveNotes(notes);
+        
         const noteList = document.getElementById("previousNoteList");
         addNoteToNoteList(note, noteList);
 
@@ -101,9 +102,22 @@ function filterByTag(notes) {
     });
 }
 
+function loadNotes() {
+    const notes = localStorage.getItem("notes");
+
+    if(!notes) 
+        return [];
+
+    return JSON.parse(notes);
+}
+
+function saveNotes(notes) {
+    localStorage.setItem("notes", JSON.stringify(notes));
+}
+
 function main() {
     console.log("In Main");
-    const notes = [];
+    const notes = loadNotes();
     createNote(notes);
     filterByTag(notes);
 
