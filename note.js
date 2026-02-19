@@ -36,6 +36,7 @@ function createNote(notes) {
     });
 }
 
+// Adds the title of a note to the Previous Notes List
 function addNoteToNoteList(note, noteList) {
     const li = document.createElement("li");
     li.textContent = note.title;
@@ -52,6 +53,7 @@ function formatTags(tagString) {
     return tagString
         .split(",")
         .map(tag => tag.trim())
+        .map(tag => tag.toLowerCase())
         .filter(tag => tag !== "");
 }
 
@@ -90,6 +92,7 @@ function filterByTag(notes) {
             }
         }
 
+        console.log(`${notesByTag.length} note(s) found`);
         for(const note of notesByTag) {
             console.log(note);
         }
