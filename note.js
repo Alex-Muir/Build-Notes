@@ -25,12 +25,21 @@ function createNote(notes) {
 
         notes.push(note);
 
-        for(const note of notes) {
-            console.log(note);
+        const noteList = document.getElementById("previousNoteList");
+        addNoteToNoteList(note, noteList);
+
+        for(const item of notes) {
+            console.log(item);
         }
 
         form.reset();
     });
+}
+
+function addNoteToNoteList(note, noteList) {
+    const li = document.createElement("li");
+    li.textContent = note.title;
+    noteList.appendChild(li);
 }
 
 // Helper function for createNote() and filterByTag().
