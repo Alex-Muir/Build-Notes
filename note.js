@@ -15,11 +15,11 @@ function createNote(notes) {
         const tags = formatTags(tagString);
     
         const note = {
-            id: Date.now(), 
+            id: Date.now().toString(), 
             title: title, 
             content: content, 
             tags: tags, 
-            createdAt: new Date(), 
+            createdAt: new Date().toISOString(), 
             editedAt: null
         };
 
@@ -102,7 +102,17 @@ function filterByTag(notes) {
     });
 }
 
+function displayPreviousNotes(notes) {
+    if(notes && notes.length > 0) {
+        const noteList = document.getElementById("previousNoteList");
+        for(const note of notes) {
+            addNoteToNoteList(note, noteList);
+        }
+    }   
+}
+
 function loadNotes() {
+    console.log("Loading notes...")
     const notes = localStorage.getItem("notes");
 
     if(!notes) 
@@ -118,8 +128,10 @@ function saveNotes(notes) {
 function main() {
     console.log("In Main");
     const notes = loadNotes();
+    displayPreviousNotes(notes);
     createNote(notes);
     filterByTag(notes);
+    //localStorage.clear();
 
 }
 
