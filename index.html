@@ -10,7 +10,7 @@
     <h1>Build Notes</h1>
 
     <!-- Search Bar -->
-    <section>
+    <section id="searchSection">
       <h2>Search Notes</h2>
       <form id="searchForm">
         <label for="search">Search (Separate by comma)</label><br>
@@ -20,8 +20,8 @@
     </section><br>
 
     <!-- Title and Note Content -->
-    <section>
-      <h2>New Note</h2>
+    <section id="createNoteSection">
+      <h2 id="modeTitle">New Note</h2>
       <form id="noteForm">
           <label for="title">Title:</label><br>
           <input type="text" id="titleInput" name="title" required><br>
@@ -29,15 +29,43 @@
           <textarea name="content" id="contentInput" rows="10" cols="40" required></textarea><br>
           <label for="tags">Tags (Separate by comma)</label><br>
           <input type="text" id="tagInput" name="tags" placeholder="tag1,tag2,tag3"><br><br>
-          <div>
+          <div id="createNoteButtons">
             <button type="submit">Submit</button>
             <button type="reset">Reset</button>
+          </div>
+          <div id="editNoteButtons" hidden>
+            <button type="submit">Save Changes</button>
+            <button type="button" id="cancelButton">Cancel</button>
           </div>
       </form>
     </section><br>
 
+    <!-- View Note -->
+    <section id="viewNoteSection" hidden>
+      <h2>View Note</h2>
+      <p>
+        <strong>Title: </strong>
+        <span id="noteTitleView"></span>
+      </p>
+      <p>
+        <strong>Date Created: </strong>
+        <span id="dateCreatedView"></span>
+      </p>
+      <strong>Note Content:</strong>
+      <p id="noteContentView" style="max-width: 40ch; overflow-wrap: break-word;"></p>
+      <p>
+        <strong>Tags: </strong>
+        <span id="tagsView"></span>
+      </p>
+      <div>
+        <button type="button" id="editNoteButton">Edit Note</button>
+        <button type="button" id="removNoteButton">Delete Note</button>
+        <button type="button" id="createNewNoteButton">Create New Note</button>
+      </div>
+    </section><br>
+
     <!-- Previous Notes Section -->
-    <section>
+    <section id="previousNotesSection">
       <aside>
         <h2>Previous Notes</h2>
         <ol id="previousNoteList">

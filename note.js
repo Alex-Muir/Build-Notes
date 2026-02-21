@@ -1,3 +1,5 @@
+let currentNoteId = null;
+
 // Create a new note from user input (title, content, and tags)
 function createNote(notes) {
     const form = document.getElementById("noteForm");
@@ -13,27 +15,45 @@ function createNote(notes) {
         const tagString = tagInput.value;
 
         const tags = formatTags(tagString);
-    
-        const note = {
+
+        let note = null;
+
+        for(const item of notes) {
+            if(item.id == currentNoteId)
+                note = item; 
+        }
+
+        if(note) {
+            note.title = title;
+            note.content = content;
+            note.tags = tags;
+            note.editedAt = new Date().toString();
+        } else {
+
+            let note = {
             id: Date.now().toString(), 
             title: title, 
             content: content, 
             tags: tags, 
-            createdAt: new Date().toISOString(), 
+            createdAt: new Date().toString(), 
             editedAt: null
-        };
+            };
 
-        notes.push(note);
+            notes.push(note);
+        }
+    
         saveNotes(notes);
-        
-        const noteList = document.getElementById("previousNoteList");
-        addNoteToNoteList(note, noteList);
+        renderNoteList(notes)
 
+        console.log("Current List");
         for(const item of notes) {
             console.log(item);
         }
 
-        form.reset();
+        if(note) 
+            viewMode(note);
+        else
+            form.reset();
     });
 }
 
@@ -41,6 +61,11 @@ function createNote(notes) {
 function addNoteToNoteList(note, noteList) {
     const li = document.createElement("li");
     li.textContent = note.title;
+
+    li.addEventListener("click", () => {
+        currentNoteId = note.id;
+        viewMode(note);
+    });
     noteList.appendChild(li);
 }
 
@@ -64,12 +89,23 @@ function removeNote(index, notes) {
 }
 
 // Update (Edit) a note
-/*async function updateNote(rl, index, notes) {
-    console.log(`\nThis is the note to edit: ${notes[index].content}`)
-    const newContent = (await rl.question("What would you like to add? ")).trim();
-    notes[index].content += " " + newContent;
-    notes[index].editedAt = new Date();
-}*/
+function editNoteSetup(notes) {
+    const editBtn = document.getElementById("editNoteButton");
+
+    editBtn.addEventListener("click", () => {
+        let note = null;
+
+        for(const item of notes) {
+            if(item.id == currentNoteId)
+                note = item; 
+        }
+
+        editMode(note);
+    });
+
+    if(notes.length < 1) 
+        return;
+}
 
 // Filter notes by tag
 function filterByTag(notes) {
@@ -125,14 +161,82 @@ function saveNotes(notes) {
     localStorage.setItem("notes", JSON.stringify(notes));
 }
 
+function viewMode(note) {
+    document.getElementById("createNoteSection").hidden = true;
+    document.getElementById("viewNoteSection").hidden = false;
+
+    document.getElementById("noteTitleView").textContent = note.title;
+    document.getElementById("dateCreatedView").textContent = note.createdAt.toString();
+    document.getElementById("noteContentView").textContent = note.content;
+    document.getElementById("tagsView").textContent = note.tags.join(", ");
+}
+
+function editMode(note) {
+    document.getElementById("viewNoteSection").hidden = true;
+    document.getElementById("createNoteButtons").hidden = true;
+    document.getElementById("modeTitle").textContent = "Edit Note";
+    document.getElementById("titleInput").value = note.title;
+    document.getElementById("contentInput").value = note.content;
+    document.getElementById("tagInput").value = note.tags.join(", ");
+    document.getElementById("createNoteSection").hidden = false;
+    document.getElementById("editNoteButtons").hidden = false;
+}
+
+function createMode() {
+    currentNoteId = null;
+    document.getElementById("createNoteSection").hidden = false;
+    document.getElementById("viewNoteSection").hidden = true;
+}
+
+function createNewNote() {
+    const newNoteBtn = document.getElementById("createNewNoteButton");
+
+    newNoteBtn.addEventListener("click", () => {
+        createMode();
+    });
+
+}
+
+function cancelEditSetup(notes) {
+    cancelBtn = document.getElementById("cancelButton");
+
+    cancelBtn.addEventListener("click", () => {
+        let note = null;
+
+        for(const item of notes) {
+            if(item.id == currentNoteId)
+                note = item; 
+        }
+        viewMode(note);
+    });
+}
+
+function resetNoteForm() {
+    window.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("noteForm").reset();
+    });
+}
+
+function renderNoteList(notes) {
+  const noteList = document.getElementById("previousNoteList");
+  noteList.innerHTML = "";
+
+  for (const note of notes) {
+    addNoteToNoteList(note, noteList);
+  }
+}
+
 function main() {
     console.log("In Main");
+    resetNoteForm();
     const notes = loadNotes();
     displayPreviousNotes(notes);
     createNote(notes);
     filterByTag(notes);
+    editNoteSetup(notes)
+    cancelEditSetup(notes);
+    createNewNote();
     //localStorage.clear();
-
 }
 
 main();
