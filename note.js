@@ -18,18 +18,20 @@ function createNote(notes) {
 
         let note = null;
 
+        // Check if note already exists
         for(const item of notes) {
             if(item.id == currentNoteId)
                 note = item; 
         }
 
+        // If the note already exists update the contents after edit
         if(note) {
             note.title = title;
             note.content = content;
             note.tags = tags;
             note.editedAt = new Date().toString();
         } else {
-
+            // If the note does not exist create the note and add it to notes
             let note = {
             id: Date.now().toString(), 
             title: title, 
@@ -42,6 +44,7 @@ function createNote(notes) {
             notes.push(note);
         }
     
+        // save the notes and render the list
         saveNotes(notes);
         renderNoteList(notes)
 
@@ -50,6 +53,8 @@ function createNote(notes) {
             console.log(item);
         }
 
+        // If the note was edited view it in viewMode
+        // otherwise reset the form for createMode
         if(note) 
             viewMode(note);
         else
@@ -69,8 +74,8 @@ function addNoteToNoteList(note, noteList) {
     noteList.appendChild(li);
 }
 
-// Helper function for createNote() and filterByTag().
-// Separates tags and removes whitespace and empty strings. 
+// Helper function for createNote() and filterByTag(). Separates tags, 
+// removes whitespace and empty strings, and converts tags lower case. 
 function formatTags(tagString) {
 
     if(!tagString) 
@@ -88,7 +93,7 @@ function removeNote(index, notes) {
     notes.splice(index, 1);
 }
 
-// Update (Edit) a note
+// Listener for the editNoteButton. When clicked calls editMode
 function editNoteSetup(notes) {
     const editBtn = document.getElementById("editNoteButton");
 
@@ -107,7 +112,7 @@ function editNoteSetup(notes) {
         return;
 }
 
-// Filter notes by tag
+// Filter notes by tags entered into the search bar. (Currently console logs the relevant notes)
 function filterByTag(notes) {
 
     const form = document.getElementById("searchForm");
@@ -138,6 +143,7 @@ function filterByTag(notes) {
     });
 }
 
+// If there are notes to display, display the in the 'Previous Notes' list
 function displayPreviousNotes(notes) {
     if(notes && notes.length > 0) {
         const noteList = document.getElementById("previousNoteList");
@@ -147,6 +153,7 @@ function displayPreviousNotes(notes) {
     }   
 }
 
+// Get notes from local storage. If notes doesn't exist return an empty array
 function loadNotes() {
     console.log("Loading notes...")
     const notes = localStorage.getItem("notes");
@@ -157,10 +164,12 @@ function loadNotes() {
     return JSON.parse(notes);
 }
 
+// Saves notes to local storage
 function saveNotes(notes) {
     localStorage.setItem("notes", JSON.stringify(notes));
 }
 
+// sets up viewMode
 function viewMode(note) {
     document.getElementById("createNoteSection").hidden = true;
     document.getElementById("viewNoteSection").hidden = false;
@@ -171,6 +180,7 @@ function viewMode(note) {
     document.getElementById("tagsView").textContent = note.tags.join(", ");
 }
 
+// sets up editMode. editMode uses the same form as createMode, but different buttons
 function editMode(note) {
     document.getElementById("viewNoteSection").hidden = true;
     document.getElementById("createNoteButtons").hidden = true;
@@ -182,12 +192,14 @@ function editMode(note) {
     document.getElementById("editNoteButtons").hidden = false;
 }
 
+// retores create mode
 function createMode() {
     currentNoteId = null;
     document.getElementById("createNoteSection").hidden = false;
     document.getElementById("viewNoteSection").hidden = true;
 }
 
+// returns user from view mode to create mode when createNewNoteButton is clicked
 function createNewNote() {
     const newNoteBtn = document.getElementById("createNewNoteButton");
 
@@ -197,12 +209,14 @@ function createNewNote() {
 
 }
 
+// Cancels the edit mode process and returns user to view mode when the cancelButton is clicked
 function cancelEditSetup(notes) {
     cancelBtn = document.getElementById("cancelButton");
 
     cancelBtn.addEventListener("click", () => {
         let note = null;
 
+        // find the note that was being edited and view it in viewMode
         for(const item of notes) {
             if(item.id == currentNoteId)
                 note = item; 
@@ -211,19 +225,23 @@ function cancelEditSetup(notes) {
     });
 }
 
+// Reset the note form after reload for text inputs
 function resetNoteForm() {
     window.addEventListener("DOMContentLoaded", () => {
         document.getElementById("noteForm").reset();
     });
 }
 
+// Renders note list whenever there is an addition or edit
 function renderNoteList(notes) {
-  const noteList = document.getElementById("previousNoteList");
-  noteList.innerHTML = "";
+    // Reset the previousNote List to be empty
+    const noteList = document.getElementById("previousNoteList");
+    noteList.innerHTML = "";
 
-  for (const note of notes) {
-    addNoteToNoteList(note, noteList);
-  }
+    // Add (or re-add) all the notes to the list
+    for (const note of notes) {
+        addNoteToNoteList(note, noteList);
+    }
 }
 
 function main() {
@@ -236,7 +254,7 @@ function main() {
     editNoteSetup(notes)
     cancelEditSetup(notes);
     createNewNote();
-    //localStorage.clear();
+    localStorage.clear();
 }
 
 main();
