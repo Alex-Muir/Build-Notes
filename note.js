@@ -1,3 +1,4 @@
+// Used to keep the clicked note's id available for editing, viewing, and removal
 let currentNoteId = null;
 
 // Create a new note from user input (title, content, and tags)
@@ -46,7 +47,8 @@ function createNote(notes) {
     
         // save the notes and render the list
         saveNotes(notes);
-        renderNoteList(notes)
+        renderPreviousNotes(notes);
+        clearSearchResults();
 
         console.log("Current List");
         for(const item of notes) {
@@ -60,18 +62,6 @@ function createNote(notes) {
         else
             form.reset();
     });
-}
-
-// Adds the title of a note to the Previous Notes List
-function addNoteToNoteList(note, noteList) {
-    const li = document.createElement("li");
-    li.textContent = note.title;
-
-    li.addEventListener("click", () => {
-        currentNoteId = note.id;
-        viewMode(note);
-    });
-    noteList.appendChild(li);
 }
 
 // Helper function for createNote() and filterByTag(). Separates tags, 
@@ -106,7 +96,8 @@ function removeNoteSetup(notes) {
         }
 
         // Re-render the list
-        renderNoteList(notes);
+        clearSearchResults();
+        renderPreviousNotes(notes);
 
         // Enter createMode
         createMode();
@@ -159,6 +150,8 @@ function filterByTag(notes) {
             console.log(note);
         }
 
+        renderSearchResults(notesByTag);
+
         form.reset();
     });
 }
@@ -166,10 +159,7 @@ function filterByTag(notes) {
 // If there are notes to display, display the in the 'Previous Notes' list
 function displayPreviousNotes(notes) {
     if(notes && notes.length > 0) {
-        const noteList = document.getElementById("previousNoteList");
-        for(const note of notes) {
-            addNoteToNoteList(note, noteList);
-        }
+        renderPreviousNotes(notes)
     }   
 }
 
@@ -269,18 +259,6 @@ function resetNoteForm() {
     });
 }
 
-// Renders note list whenever there is an addition or edit
-function renderNoteList(notes) {
-    // Reset the previousNote List to be empty
-    const noteList = document.getElementById("previousNoteList");
-    noteList.innerHTML = "";
-
-    // Add (or re-add) all the notes to the list
-    for (const note of notes) {
-        addNoteToNoteList(note, noteList);
-    }
-}
-
 // On confim, Clears local storage, empties the notes array, 
 // and clears previous notes on screen
 function clearLocalStorage(notes) {
@@ -290,7 +268,7 @@ function clearLocalStorage(notes) {
         if(window.confirm("You are about to delete all data. Do you want to proceed?")) {
             localStorage.clear()
             notes.length = 0;
-            renderNoteList(notes);
+            renderPreviousNotes(notes);
             createMode();
             console.log(notes);
         } else {
@@ -299,17 +277,62 @@ function clearLocalStorage(notes) {
     });
 }
 
+// Calls reates a clickable li item that represents a note and returns it
+function createNoteListItem(note) {
+    const li = document.createElement("li");
+    li.textContent = note.title;
+
+    li.addEventListener("click", () => {
+        currentNoteId = note.id;
+        viewMode(note)
+    })
+
+    return li
+}
+
+// Renders the previous note list using the li elements returned from createNoteListItem
+function renderPreviousNotes(notes) {
+    const noteList = document.getElementById("previousNoteList");
+    noteList.innerHTML = "";
+
+    for(const note of notes){
+        noteList.appendChild(createNoteListItem(note));
+    }
+}
+
+// Renders the search results using the li elements returned from createNoteListItems
+function renderSearchResults(notes) {
+    const searchResults = document.getElementById("searchResultList");
+    searchResults.innerHTML = "";
+
+    for(const note of notes) {
+        searchResults.appendChild(createNoteListItem(note));
+    }
+}
+
+// Clears all search results
+function clearSearchResults() {
+    const searchResults = document.getElementById("searchResultList");
+    searchResults.innerHTML = "";
+}
+
 function main() {
     console.log("In Main");
+
+    // Initial State
     resetNoteForm();
     const notes = loadNotes();
     displayPreviousNotes(notes);
+
+    // Note Lifecycle
     createNote(notes);
-    filterByTag(notes);
     editNoteSetup(notes)
     cancelEditSetup(notes);
     removeNoteSetup(notes);
     createNewNote();
+
+    // Search and Utilities
+    filterByTag(notes);
     clearLocalStorage(notes);
 }
 
