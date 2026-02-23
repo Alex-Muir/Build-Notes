@@ -193,9 +193,20 @@ function saveNotes(notes) {
 function viewMode(note) {
     document.getElementById("createNoteSection").hidden = true;
     document.getElementById("viewNoteSection").hidden = false;
-
     document.getElementById("noteTitleView").textContent = note.title;
-    document.getElementById("dateCreatedView").textContent = note.createdAt.toString();
+    document.getElementById("dateCreatedView").textContent = note.createdAt;
+
+    const editDate = document.getElementById("editDateExists");
+    const editDateContent = document.getElementById("dateEditedView");
+
+    if(note.editedAt) {
+        editDateContent.textContent = note.editedAt;
+        editDate.hidden = false;
+    } else {
+        editDateContent.textContent = "";
+        editDate.hidden = true;
+    }
+
     document.getElementById("noteContentView").textContent = note.content;
     document.getElementById("tagsView").textContent = note.tags.join(", ");
 }
@@ -278,11 +289,10 @@ function clearLocalStorage(notes) {
     deleteAllBtn.addEventListener("click", () => {
         if(window.confirm("You are about to delete all data. Do you want to proceed?")) {
             localStorage.clear()
-            const noteList = document.getElementById("previousNoteList");
-            noteList.innerHTML = "";
             notes.length = 0;
-            console.log(notes);
+            renderNoteList(notes);
             createMode();
+            console.log(notes);
         } else {
             return
         }
