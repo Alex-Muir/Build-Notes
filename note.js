@@ -109,7 +109,6 @@ function removeNoteSetup(notes) {
         renderNoteList(notes);
 
         // Enter createMode
-        currentNoteId = null;
         createMode();
     })
 }
@@ -216,7 +215,13 @@ function editMode(note) {
 // retores create mode
 function createMode() {
     currentNoteId = null;
+    document.getElementById("modeTitle").textContent = "New Note";
     document.getElementById("createNoteSection").hidden = false;
+    document.getElementById("createNoteButtons").hidden = false;
+    document.getElementById("titleInput").value = "";
+    document.getElementById("contentInput").value = "";
+    document.getElementById("tagInput").value = "";
+    document.getElementById("editNoteButtons").hidden = true;
     document.getElementById("viewNoteSection").hidden = true;
 }
 
