@@ -270,6 +270,25 @@ function renderNoteList(notes) {
     }
 }
 
+// On confim, Clears local storage, empties the notes array, 
+// and clears previous notes on screen
+function clearLocalStorage(notes) {
+    deleteAllBtn = document.getElementById("clearAllDataButton");
+
+    deleteAllBtn.addEventListener("click", () => {
+        if(window.confirm("You are about to delete all data. Do you want to proceed?")) {
+            localStorage.clear()
+            const noteList = document.getElementById("previousNoteList");
+            noteList.innerHTML = "";
+            notes.length = 0;
+            console.log(notes);
+            createMode();
+        } else {
+            return
+        }
+    });
+}
+
 function main() {
     console.log("In Main");
     resetNoteForm();
@@ -281,7 +300,7 @@ function main() {
     cancelEditSetup(notes);
     removeNoteSetup(notes);
     createNewNote();
-    localStorage.clear();
+    clearLocalStorage(notes);
 }
 
 main();
