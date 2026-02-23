@@ -88,9 +88,30 @@ function formatTags(tagString) {
         .filter(tag => tag !== "");
 }
 
-// Remove a note
-function removeNote(index, notes) {
-    notes.splice(index, 1);
+// Remove a note from the note list
+function removeNoteSetup(notes) {
+    const deleteBtn = document.getElementById("removeNoteButton");
+    
+    deleteBtn.addEventListener("click", () => {
+        let index = -1;
+
+        // Find the index of the current note
+        for(let i = 0; i < notes.length; i++) {
+            if(notes[i].id == currentNoteId) {
+                index = i;
+                // Remove the current note
+                notes.splice(i, 1);
+                break;
+            }
+        }
+
+        // Re-render the list
+        renderNoteList(notes);
+
+        // Enter createMode
+        currentNoteId = null;
+        createMode();
+    })
 }
 
 // Listener for the editNoteButton. When clicked calls editMode
@@ -253,6 +274,7 @@ function main() {
     filterByTag(notes);
     editNoteSetup(notes)
     cancelEditSetup(notes);
+    removeNoteSetup(notes);
     createNewNote();
     localStorage.clear();
 }
