@@ -2,7 +2,28 @@
 
 // Used to keep the clicked note's id available for editing, viewing, and removal
 let currentNoteId = null;
+// Tracks notes
 const notes = []
+
+// *** PERSISTENCE FUNCTIONS ***
+
+// Get notes from local storage. If notes doesn't exist return an empty array
+function loadNotes() {
+    console.log("Loading notes...")
+    const storedNotes = localStorage.getItem("notes");
+
+    if(!storedNotes) 
+        return [];
+
+    return JSON.parse(storedNotes);
+}
+
+// Saves notes to local storage
+function saveNotes() {
+    localStorage.setItem("notes", JSON.stringify(notes));
+}
+
+// *** NOTE LIFECYCLE FUNCTIONS ***
 
 // Create a new note from user input (title, content, and tags)
 function createNote() {
@@ -61,18 +82,33 @@ function createNote() {
     });
 }
 
-// Helper function for createNote() and filterByTag(). Separates tags, 
-// removes whitespace and empty strings, and converts tags lower case. 
-function formatTags(tagString) {
+// Listener for the editNoteButton. When clicked calls editMode
+function editNoteSetup() {
+    const editBtn = document.getElementById("editNoteButton");
 
-    if(!tagString) 
-        return []
+    editBtn.addEventListener("click", () => {
+        let note = doesNoteExist();
 
-    return tagString
-        .split(",")
-        .map(tag => tag.trim())
-        .map(tag => tag.toLowerCase())
-        .filter(tag => tag !== "");
+        if(!note)
+            return;
+        editMode(note);
+    });
+
+    if(notes.length < 1) 
+        return;
+}
+
+// Cancels the edit mode process and returns user to view mode when the cancelButton is clicked
+function cancelEditSetup() {
+    const cancelBtn = document.getElementById("cancelButton");
+
+    cancelBtn.addEventListener("click", () => {
+        let note = doesNoteExist();
+        if(!note)
+            return;
+
+        viewMode(note);
+    });
 }
 
 // Remove a note from the note list
@@ -102,21 +138,20 @@ function removeNoteSetup() {
     })
 }
 
-// Listener for the editNoteButton. When clicked calls editMode
-function editNoteSetup() {
-    const editBtn = document.getElementById("editNoteButton");
+// returns user from view mode to create mode when createNewNoteButton is clicked
+function createNewNote() {
+    const newNoteBtn = document.getElementById("createNewNoteButton");
 
-    editBtn.addEventListener("click", () => {
-        let note = doesNoteExist();
-
-        if(!note)
-            return;
-        editMode(note);
+    newNoteBtn.addEventListener("click", () => {
+        currentNoteId = null;
+        const searchResults = document.getElementById("searchResultList");
+        searchResults.innerHTML = "";
+        createMode();
     });
 
-    if(notes.length < 1) 
-        return;
 }
+
+//  *** SEARCH AND UTILITIES ***
 
 // Filter notes by tags entered into the search bar. (Currently console logs the relevant notes)
 function filterByTag() {
@@ -151,6 +186,27 @@ function filterByTag() {
     });
 }
 
+// On confim, Clears local storage, empties the notes array, 
+// and clears previous notes on screen
+function clearLocalStorage() {
+    const deleteAllBtn = document.getElementById("clearAllDataButton");
+
+    deleteAllBtn.addEventListener("click", () => {
+        if(window.confirm("You are about to delete all data. Do you want to proceed?")) {
+            localStorage.clear()
+            notes.length = 0;
+            currentNoteId = null;
+            renderPreviousNotes();
+            createMode();
+            console.log(notes);
+        } else {
+            return
+        }
+    });
+}
+
+// *** RENDERERS ***
+
 // If there are notes to display, display them in the 'Previous Notes' list
 function displayPreviousNotes() {
     if(notes && notes.length > 0) {
@@ -158,21 +214,27 @@ function displayPreviousNotes() {
     }   
 }
 
-// Get notes from local storage. If notes doesn't exist return an empty array
-function loadNotes() {
-    console.log("Loading notes...")
-    const storedNotes = localStorage.getItem("notes");
+// Renders the previous note list using the li elements returned from createNoteListItem
+function renderPreviousNotes() {
+    const noteList = document.getElementById("previousNoteList");
+    noteList.innerHTML = "";
 
-    if(!storedNotes) 
-        return [];
-
-    return JSON.parse(storedNotes);
+    for(const note of notes){
+        noteList.appendChild(createNoteListItem(note));
+    }
 }
 
-// Saves notes to local storage
-function saveNotes() {
-    localStorage.setItem("notes", JSON.stringify(notes));
+// Renders the search results using the li elements returned from createNoteListItems
+function renderSearchResults(notesByTag) {
+    const searchResults = document.getElementById("searchResultList");
+    searchResults.innerHTML = "";
+
+    for(const note of notesByTag) {
+        searchResults.appendChild(createNoteListItem(note));
+    }
 }
+
+// *** MODES ***
 
 // sets up viewMode
 function viewMode(note) {
@@ -220,31 +282,7 @@ function createMode() {
     document.getElementById("viewNoteSection").hidden = true;
 }
 
-// returns user from view mode to create mode when createNewNoteButton is clicked
-function createNewNote() {
-    const newNoteBtn = document.getElementById("createNewNoteButton");
-
-    newNoteBtn.addEventListener("click", () => {
-        currentNoteId = null;
-        const searchResults = document.getElementById("searchResultList");
-        searchResults.innerHTML = "";
-        createMode();
-    });
-
-}
-
-// Cancels the edit mode process and returns user to view mode when the cancelButton is clicked
-function cancelEditSetup() {
-    const cancelBtn = document.getElementById("cancelButton");
-
-    cancelBtn.addEventListener("click", () => {
-        let note = doesNoteExist();
-        if(!note)
-            return;
-
-        viewMode(note);
-    });
-}
+// *** HELPERS ***
 
 // Reset the note form after reload for text inputs
 function resetNoteForm() {
@@ -253,26 +291,8 @@ function resetNoteForm() {
     });
 }
 
-// On confim, Clears local storage, empties the notes array, 
-// and clears previous notes on screen
-function clearLocalStorage() {
-    const deleteAllBtn = document.getElementById("clearAllDataButton");
 
-    deleteAllBtn.addEventListener("click", () => {
-        if(window.confirm("You are about to delete all data. Do you want to proceed?")) {
-            localStorage.clear()
-            notes.length = 0;
-            currentNoteId = null;
-            renderPreviousNotes();
-            createMode();
-            console.log(notes);
-        } else {
-            return
-        }
-    });
-}
-
-// Calls reates a clickable li item that represents a note and returns it
+// Creates a clickable li item that represents a note and returns it
 function createNoteListItem(note) {
     const li = document.createElement("li");
     li.textContent = note.title;
@@ -285,30 +305,18 @@ function createNoteListItem(note) {
     return li
 }
 
-// Renders the previous note list using the li elements returned from createNoteListItem
-function renderPreviousNotes() {
-    const noteList = document.getElementById("previousNoteList");
-    noteList.innerHTML = "";
+// Helper function for createNote() and filterByTag(). Separates tags, 
+// removes whitespace and empty strings, and converts tags lower case. 
+function formatTags(tagString) {
 
-    for(const note of notes){
-        noteList.appendChild(createNoteListItem(note));
-    }
-}
+    if(!tagString) 
+        return []
 
-// Renders the search results using the li elements returned from createNoteListItems
-function renderSearchResults(notesByTag) {
-    const searchResults = document.getElementById("searchResultList");
-    searchResults.innerHTML = "";
-
-    for(const note of notesByTag) {
-        searchResults.appendChild(createNoteListItem(note));
-    }
-}
-
-// Clears all search results
-function clearSearchResults() {
-    const searchResults = document.getElementById("searchResultList");
-    searchResults.innerHTML = "";
+    return tagString
+        .split(",")
+        .map(tag => tag.trim())
+        .map(tag => tag.toLowerCase())
+        .filter(tag => tag !== "");
 }
 
 // Checks if a note exists
@@ -320,6 +328,14 @@ function doesNoteExist() {
 
     return null;
 }
+
+// Clears all search results
+function clearSearchResults() {
+    const searchResults = document.getElementById("searchResultList");
+    searchResults.innerHTML = "";
+}
+
+// *** MAIN ***
 
 function main() {
     console.log("In Main");
