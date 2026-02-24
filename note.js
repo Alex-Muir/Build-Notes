@@ -2,9 +2,10 @@
 
 // Used to keep the clicked note's id available for editing, viewing, and removal
 let currentNoteId = null;
+const notes = []
 
 // Create a new note from user input (title, content, and tags)
-function createNote(notes) {
+function createNote() {
     const form = document.getElementById("noteForm");
     const titleInput = document.getElementById("titleInput");
     const contentInput = document.getElementById("contentInput");
@@ -19,13 +20,7 @@ function createNote(notes) {
 
         const tags = formatTags(tagString);
 
-        let note = null;
-
-        // Check if note already exists
-        for(const item of notes) {
-            if(item.id === currentNoteId)
-                note = item; 
-        }
+        let note = doesNoteExists();
 
         // If the note already exists update the contents after edit
         if(note) {
@@ -48,8 +43,8 @@ function createNote(notes) {
         }
     
         // save the notes and render the list
-        saveNotes(notes);
-        renderPreviousNotes(notes);
+        saveNotes();
+        renderPreviousNotes();
         clearSearchResults();
 
         console.log("Current List");
@@ -59,7 +54,7 @@ function createNote(notes) {
 
         // If the note was edited view it in viewMode
         // otherwise reset the form for createMode
-        if(note) 
+        if(currentNoteId) 
             viewMode(note);
         else
             form.reset();
@@ -81,7 +76,7 @@ function formatTags(tagString) {
 }
 
 // Remove a note from the note list
-function removeNoteSetup(notes) {
+function removeNoteSetup() {
     const deleteBtn = document.getElementById("removeNoteButton");
     
     deleteBtn.addEventListener("click", () => {
@@ -101,7 +96,7 @@ function removeNoteSetup(notes) {
 
         // Re-render the list
         clearSearchResults();
-        renderPreviousNotes(notes);
+        renderPreviousNotes();
 
         // Enter createMode
         createMode();
@@ -109,16 +104,11 @@ function removeNoteSetup(notes) {
 }
 
 // Listener for the editNoteButton. When clicked calls editMode
-function editNoteSetup(notes) {
+function editNoteSetup() {
     const editBtn = document.getElementById("editNoteButton");
 
     editBtn.addEventListener("click", () => {
-        let note = null;
-
-        for(const item of notes) {
-            if(item.id === currentNoteId)
-                note = item; 
-        }
+        let note = doesNoteExists();
 
         if(!note)
             return;
@@ -130,7 +120,7 @@ function editNoteSetup(notes) {
 }
 
 // Filter notes by tags entered into the search bar. (Currently console logs the relevant notes)
-function filterByTag(notes) {
+function filterByTag() {
 
     const form = document.getElementById("searchForm");
     const searchInput = document.getElementById("searchInput");
@@ -163,9 +153,9 @@ function filterByTag(notes) {
 }
 
 // If there are notes to display, display the in the 'Previous Notes' list
-function displayPreviousNotes(notes) {
+function displayPreviousNotes() {
     if(notes && notes.length > 0) {
-        renderPreviousNotes(notes)
+        renderPreviousNotes()
     }   
 }
 
@@ -181,7 +171,7 @@ function loadNotes() {
 }
 
 // Saves notes to local storage
-function saveNotes(notes) {
+function saveNotes() {
     localStorage.setItem("notes", JSON.stringify(notes));
 }
 
@@ -237,23 +227,19 @@ function createNewNote() {
 
     newNoteBtn.addEventListener("click", () => {
         currentNoteId = null;
+        const searchResults = document.getElementById("searchResultList");
+        searchResults.innerHTML = "";
         createMode();
     });
 
 }
 
 // Cancels the edit mode process and returns user to view mode when the cancelButton is clicked
-function cancelEditSetup(notes) {
+function cancelEditSetup() {
     const cancelBtn = document.getElementById("cancelButton");
 
     cancelBtn.addEventListener("click", () => {
-        let note = null;
-
-        // find the note that was being edited and view it in viewMode
-        for(const item of notes) {
-            if(item.id === currentNoteId)
-                note = item; 
-        }
+        let note = doesNoteExists();
         viewMode(note);
     });
 }
@@ -267,7 +253,7 @@ function resetNoteForm() {
 
 // On confim, Clears local storage, empties the notes array, 
 // and clears previous notes on screen
-function clearLocalStorage(notes) {
+function clearLocalStorage() {
     const deleteAllBtn = document.getElementById("clearAllDataButton");
 
     deleteAllBtn.addEventListener("click", () => {
@@ -275,8 +261,7 @@ function clearLocalStorage(notes) {
             localStorage.clear()
             notes.length = 0;
             currentNoteId = null;
-            renderPreviousNotes(notes);
-            renderSearchResults(notes);
+            renderPreviousNotes();
             createMode();
             console.log(notes);
         } else {
@@ -299,7 +284,7 @@ function createNoteListItem(note) {
 }
 
 // Renders the previous note list using the li elements returned from createNoteListItem
-function renderPreviousNotes(notes) {
+function renderPreviousNotes() {
     const noteList = document.getElementById("previousNoteList");
     noteList.innerHTML = "";
 
@@ -309,11 +294,11 @@ function renderPreviousNotes(notes) {
 }
 
 // Renders the search results using the li elements returned from createNoteListItems
-function renderSearchResults(notes) {
+function renderSearchResults(notesByTag) {
     const searchResults = document.getElementById("searchResultList");
     searchResults.innerHTML = "";
 
-    for(const note of notes) {
+    for(const note of notesByTag) {
         searchResults.appendChild(createNoteListItem(note));
     }
 }
@@ -324,24 +309,34 @@ function clearSearchResults() {
     searchResults.innerHTML = "";
 }
 
+// Checks if a note exists
+function doesNoteExists() {
+    for(const note of notes) {
+        if(note.id === currentNoteId)
+            return note;
+    }
+
+    return null;
+}
+
 function main() {
     console.log("In Main");
 
     // Initial State
     resetNoteForm();
-    const notes = loadNotes();
-    displayPreviousNotes(notes);
+    notes.push(...loadNotes());
+    displayPreviousNotes();
 
     // Note Lifecycle
-    createNote(notes);
-    editNoteSetup(notes)
-    cancelEditSetup(notes);
-    removeNoteSetup(notes);
+    createNote();
+    editNoteSetup()
+    cancelEditSetup();
+    removeNoteSetup();
     createNewNote();
 
     // Search and Utilities
-    filterByTag(notes);
-    clearLocalStorage(notes);
+    filterByTag();
+    clearLocalStorage();
 }
 
 main();
