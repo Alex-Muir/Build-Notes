@@ -20,7 +20,7 @@ function createNote() {
 
         const tags = formatTags(tagString);
 
-        let note = doesNoteExists();
+        let note = doesNoteExist();
 
         // If the note already exists update the contents after edit
         if(note) {
@@ -80,12 +80,10 @@ function removeNoteSetup() {
     const deleteBtn = document.getElementById("removeNoteButton");
     
     deleteBtn.addEventListener("click", () => {
-        let index = -1;
 
         // Find the index of the current note
         for(let i = 0; i < notes.length; i++) {
             if(notes[i].id === currentNoteId) {
-                index = i;
                 // Remove the current note
                 notes.splice(i, 1);
                 break;
@@ -93,6 +91,7 @@ function removeNoteSetup() {
         }
 
         currentNoteId = null;
+        saveNotes();
 
         // Re-render the list
         clearSearchResults();
@@ -108,7 +107,7 @@ function editNoteSetup() {
     const editBtn = document.getElementById("editNoteButton");
 
     editBtn.addEventListener("click", () => {
-        let note = doesNoteExists();
+        let note = doesNoteExist();
 
         if(!note)
             return;
@@ -152,7 +151,7 @@ function filterByTag() {
     });
 }
 
-// If there are notes to display, display the in the 'Previous Notes' list
+// If there are notes to display, display them in the 'Previous Notes' list
 function displayPreviousNotes() {
     if(notes && notes.length > 0) {
         renderPreviousNotes()
@@ -162,12 +161,12 @@ function displayPreviousNotes() {
 // Get notes from local storage. If notes doesn't exist return an empty array
 function loadNotes() {
     console.log("Loading notes...")
-    const notes = localStorage.getItem("notes");
+    const storedNotes = localStorage.getItem("notes");
 
-    if(!notes) 
+    if(!storedNotes) 
         return [];
 
-    return JSON.parse(notes);
+    return JSON.parse(storedNotes);
 }
 
 // Saves notes to local storage
@@ -239,7 +238,10 @@ function cancelEditSetup() {
     const cancelBtn = document.getElementById("cancelButton");
 
     cancelBtn.addEventListener("click", () => {
-        let note = doesNoteExists();
+        let note = doesNoteExist();
+        if(!note)
+            return;
+
         viewMode(note);
     });
 }
@@ -310,7 +312,7 @@ function clearSearchResults() {
 }
 
 // Checks if a note exists
-function doesNoteExists() {
+function doesNoteExist() {
     for(const note of notes) {
         if(note.id === currentNoteId)
             return note;
