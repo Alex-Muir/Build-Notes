@@ -207,13 +207,6 @@ function clearLocalStorage() {
 
 // *** RENDERERS ***
 
-// If there are notes to display, display them in the 'Previous Notes' list
-function displayPreviousNotes() {
-    if(notes && notes.length > 0) {
-        renderPreviousNotes()
-    }   
-}
-
 // Renders the previous note list using the li elements returned from createNoteListItem
 function renderPreviousNotes() {
     const noteList = document.getElementById("previousNoteList");
@@ -343,7 +336,7 @@ function main() {
     // Initial State
     resetNoteForm();
     notes.push(...loadNotes());
-    displayPreviousNotes();
+    renderPreviousNotes()
 
     // Note Lifecycle
     createNote();
