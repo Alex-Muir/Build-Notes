@@ -120,9 +120,13 @@ function removeNoteSetup() {
         // Find the index of the current note
         for(let i = 0; i < notes.length; i++) {
             if(notes[i].id === currentNoteId) {
-                // Remove the current note
-                notes.splice(i, 1);
-                break;
+                if(window.confirm("Are you sure you want to delete this note?")){
+                    // Remove the current note
+                    notes.splice(i, 1);
+                    break;
+                } else {
+                    return;
+                } 
             }
         }
 
