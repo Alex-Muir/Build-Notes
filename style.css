@@ -1,0 +1,98 @@
+body {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto;
+    grid-template-areas: 
+        'title title title title title title'
+        'previousNotes createAndView createAndView createAndView createAndView search'
+        'clearStorage clearStorage clearStorage clearStorage clearStorage clearStorage';
+    background-color: lightcyan;
+    text-align: center;
+}
+
+section {
+    margin: 5px;
+}
+
+#title {
+    grid-area: title;
+    margin: 5px;
+    border-bottom: 2px solid black;
+    text-align: center;
+}
+
+#searchSection {
+    grid-area: search;
+    border-left: 2px solid black;
+
+}
+
+#searchForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.centerPage {
+    grid-area: createAndView;
+    height: 850px;
+}
+
+#previousNotesSection {
+    grid-area: previousNotes;
+    text-align: left !important;    
+    border-right: 2px solid black;
+
+}
+
+#clearStorage {
+    grid-area: clearStorage;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: 2px solid black;
+
+}
+
+#noteForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+#searchForm {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#titleInput {
+    width: 150px;
+}
+
+#contentInput {
+    width: 60ch;
+    height: 550px;
+}
+
+#viewNoteSection {
+    text-align: center;
+}
+
+#noteContentView {
+    text-align: left;
+    max-width: 60ch;
+    overflow-wrap: break-word;
+    margin: 0 auto;
+}
+
+.input {
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+h2 {
+    text-align: center;
+}
+
