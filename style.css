@@ -9,43 +9,15 @@ body {
     text-align: center;
 }
 
-section {
-    margin: 5px;
-    color: #1C1C1C;
-}
-
-#title {
-    grid-area: title;
-    color: #1C1C1C;
-    margin: 5px;
-    border-bottom: 2px solid #7BA7BC;
-    text-align: center;
-}
-
-#searchSection {
-    grid-area: search;
-    border-left: 2px solid #C0392B;
-
-}
-
-#searchForm {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
+button {
+    background-color: #F4A7B9;
+    border-radius: 5px;
+    border: 1px solid #C0392B;
 }
 
 .centerPage {
     grid-area: createAndView;
     height: 850px;
-}
-
-#previousNotesSection {
-    grid-area: previousNotes;
-    text-align: left !important;    
-    border-right: 2px solid #C0392B;
-    overflow-wrap: break-word;
-
 }
 
 #clearStorage {
@@ -57,31 +29,21 @@ section {
 
 }
 
-#noteForm {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-}
-
-#searchForm {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-#titleInput {
-    width: 150px;
-}
-
 #contentInput {
     width: 60ch;
     height: 550px;
     max-height: 600px;
 }
 
-#viewNoteSection {
+h2 {
     text-align: center;
+    color: #1C1C1C;
+}
+
+.input {
+    border: 1px solid #7BA7BC;
+    border-radius: 5px;
+    background-color: #FFFDE7;
 }
 
 #noteContentView {
@@ -91,19 +53,50 @@ section {
     margin: 0 auto;
 }
 
-.input {
-    border: 1px solid #7BA7BC;
-    border-radius: 5px;
-    background-color: #FFFDE7;
+#noteForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
 }
 
-h2 {
+#previousNotesSection {
+    grid-area: previousNotes;
+    text-align: left !important;    
+    border-right: 6px double #C0392B;
+    overflow-wrap: break-word;
+
+}
+
+section {
+    margin: 5px;
+    color: #1C1C1C;
+}
+
+#searchForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+#searchSection {
+    grid-area: search;
+    border-left: 6px double #C0392B;
+}
+
+#title {
+    grid-area: title;
+    color: #1C1C1C;
+    margin: 5px;
+    border-bottom: 2px solid #7BA7BC;
     text-align: center;
 }
 
-button {
-    background-color: #F4A7B9;
-    border-radius: 5px;
-    border-right: 1px solid #C0392B;
+#titleInput {
+    width: 150px;
 }
 
+#viewNoteSection {
+    text-align: center;
+}
