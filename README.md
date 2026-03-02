@@ -27,8 +27,6 @@ Navigate to the Build Notes directory. Find the file named 'index.html' and doub
 ### Alternative Method For Running Build Notes
 If Python is installed open a terminal and navigate to the Build Notes directory. Type `python3 -m http.server` and hit enter. With this approach Python spins up a small web server on your machine. Then open `http://localhost:8000` in your browser.
 
-Python is already installed on most Linux machines. Type `python --version` in the terminal to see if it's installed. If it is not check your distribution's software repository or download [here](https://www.python.org/downloads/source/). Python installation for [Windows](https://www.python.org/downloads/windows/). Python installation for [MacOS](https://www.python.org/downloads/macos/).
-
 ## Usage
 Build Notes operates in three mode: Create, Edit, and View.
 
