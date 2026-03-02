@@ -1,6 +1,5 @@
 # Build Notes   
-A lightweight client-side note-taking app that runs directly in the browser.
-   
+### A lightweight client-side note-taking app that runs directly in the browser.
    
 ![Build Notes image](images/buildNotes.png)
 
@@ -33,8 +32,10 @@ Navigate to the Build Notes directory. Find the file named 'index.html' and doub
 ### Alternative Method For Running Build Notes
 If Python is installed open a terminal and navigate to the Build Notes directory. Type `python3 -m http.server` and hit enter. With this approach Python spins up a small web server on your machine. Then open `http://localhost:8000` in your browser.
 
+If Python is not installed it can be downloaded [here](https://www.python.org/downloads/).
+
 ## Usage
-Build Notes operates in three mode: Create, Edit, and View.
+Build Notes operates in three modes: Create, Edit, and View.
 
 ### Create Mode
 When opening Build Notes this is the default mode. In create mode you can enter a note title, content, and tags to search for the note. When finished, hitting the 'Submit' button will save the note to local storage and the note's title will be shown in the 'Previous Notes' section to the left. Hitting the 'Reset' button while composing a note will clear the note.
