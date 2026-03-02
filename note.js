@@ -201,6 +201,7 @@ function clearLocalStorage() {
             notes.length = 0;
             currentNoteId = null;
             renderPreviousNotes();
+            clearSearchResults();
             createMode();
             console.log(notes);
         } else {
