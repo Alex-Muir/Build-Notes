@@ -1,5 +1,5 @@
 # Build Notes   
-A lightweight client-side note-taking app that runs directly in the browser.
+## A lightweight client-side note-taking app that runs directly in the browser.
 
 ![Build Notes image](images/buildNotes.png)
 
