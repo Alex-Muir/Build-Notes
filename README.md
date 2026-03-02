@@ -1,7 +1,13 @@
 # Build Notes   
-## A lightweight client-side note-taking app that runs directly in the browser.
-
+A lightweight client-side note-taking app that runs directly in the browser.
+   
+   
 ![Build Notes image](images/buildNotes.png)
+
+## About
+Build Notes was built as a learning project to develop foundational skills in HTML, CSS, 
+and JavaScript. It is intended to serve as a starting point for a more fully featured 
+application, with plans to eventually migrate to React, TypeScript, Supabase, and Next.js.
 
 ## Features
 - Create note
@@ -52,4 +58,7 @@ On the right side of the page is the 'Search Notes' section. Here the user can s
 At the bottom of the page is the 'Clear All Notes' button. If this button is pressed a confirmation window will appear. To delete all notes click 'OK' in this window. All previous notes and search results will disappear.
 
 ![clearStorage](images/clearStorage.png)
+
+## License
+MIT
 
