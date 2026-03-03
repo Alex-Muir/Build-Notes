@@ -93,9 +93,6 @@ function editNoteSetup() {
             return;
         editMode(note);
     });
-
-    if(notes.length < 1) 
-        return;
 }
 
 // Cancels the edit mode process and returns user to view mode when the cancelButton is clicked
@@ -197,7 +194,7 @@ function clearLocalStorage() {
 
     deleteAllBtn.addEventListener("click", () => {
         if(window.confirm("You are about to delete all data. Do you want to proceed?")) {
-            localStorage.clear()
+            localStorage.removeItem("notes");
             notes.length = 0;
             currentNoteId = null;
             renderPreviousNotes();
@@ -236,6 +233,7 @@ function renderSearchResults(notesByTag) {
 
 // sets up viewMode
 function viewMode(note) {
+    currentNoteId = note.id;
     document.getElementById("createNoteSection").hidden = true;
     document.getElementById("viewNoteSection").hidden = false;
     document.getElementById("noteTitleView").textContent = note.title;
@@ -296,7 +294,7 @@ function createNoteListItem(note) {
     li.textContent = note.title;
 
     li.addEventListener("click", () => {
-        currentNoteId = note.id;
+        //currentNoteId = note.id;
         viewMode(note)
     })
 
