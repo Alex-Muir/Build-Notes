@@ -1,12 +1,15 @@
 import { useState } from 'react'
+import Button from './components/Button'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  function handleClick() {
+    alert("I've been pressed!");
+  }
 
   return (
     <>
-      
+      <Button type={"button"} label={"test"} handleClick={handleClick}></Button>
     </>
   )
 }
