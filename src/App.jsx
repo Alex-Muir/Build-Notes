@@ -8,6 +8,7 @@ function App() {
 
   return (
     <>
+      <h1 className='AppName'>Build Notes</h1>
       <NoteSection></NoteSection>
     </>
   )
