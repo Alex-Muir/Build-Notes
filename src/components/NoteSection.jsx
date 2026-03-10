@@ -7,9 +7,9 @@ export default function NoteSection() {
   }
 
     return (
-        <div>
+        <div className="NoteSection">
             <h2>New Note</h2>
-            <form>
+            <form className="NoteForm">
                 <Input 
                     labelFor="title"
                     label="Title:" 

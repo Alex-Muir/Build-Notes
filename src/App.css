@@ -1,6 +1,21 @@
-Button {
+button {
     background-color: #F4A789;
     border-radius: 5px;
     border: 1px solid #C0392B;
-    cursor: pointer
+    cursor: pointer;
+}
+
+.NoteForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.NoteSection {
+    text-align: center;
+}
+
+.TextInput {
+    border-radius: 5px;
 }
