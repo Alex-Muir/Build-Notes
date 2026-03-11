@@ -5,6 +5,12 @@ button {
     cursor: pointer;
 }
 
+.ClearStorage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .NoteForm {
     display: flex;
     flex-direction: column;
