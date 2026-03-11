@@ -1,7 +1,7 @@
 export default function Input( {labelFor, label, type, name, placeholder, multiline, required} ) {
     return (
         <>
-            <label for={labelFor}>{label}</label>
+            <label htmlFor={labelFor}>{label}</label>
             {multiline ? (
                 <textarea className="TextInput" name={name} required={required}></textarea> 
             ) : (
