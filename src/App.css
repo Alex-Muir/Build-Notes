@@ -1,14 +1,52 @@
+.App {
+    display: grid;
+    grid-template-areas: 
+        'appName appName appName'
+        'prevNotes notes search'
+        'clear clear clear';
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr) minmax(0, 1fr);
+    grid-template-rows: auto 1fr auto;
+    height: 100%;
+    gap: 10px;
+}
+
+.AppName {
+    grid-area: appName;
+    text-align: center;
+    /*background-color: yellow;*/
+    border-bottom: 2px solid lightblue;
+}
+
 button {
     background-color: #F4A789;
     border-radius: 5px;
     border: 1px solid #C0392B;
+    margin: 5px;
     cursor: pointer;
 }
 
 .ClearStorage {
+    grid-area: clear;
     display: flex;
     flex-direction: column;
     align-items: center;
+    /*background-color: red;*/
+    border-top: 2px solid lightblue;
+}
+
+.ClearStorage h2 {
+    margin: 0;
+}
+
+.ContentInput {
+    border-radius: 5px;
+    height: 70%;
+    width: 40%;
+    resize: none;
+}
+
+h1 {
+    margin: 0;
 }
 
 .NoteForm {
@@ -16,6 +54,18 @@ button {
     flex-direction: column;
     align-items: center;
     gap: 5px;
+    height: 100%;
+}
+
+.NoteSection {
+    grid-area: notes;
+    /*background-color: lightgreen;*/
+}
+
+.PreviousNotesSection {
+    grid-area: prevNotes;
+    /*background-color: lightblue;*/
+    border-right: 2px solid lightblue;
 }
 
 .SearchForm {
@@ -24,10 +74,16 @@ button {
     align-items: center;
 }
 
+.SearchSection {
+    grid-area: search;
+    /*background-color: pink;*/
+    border-left: 2px solid lightblue;
+}
+
 .SectionName {
     text-align: center;
 }
 
-.TextInput {
+.TitleAndTagInput {
     border-radius: 5px;
 }

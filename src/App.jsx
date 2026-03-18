@@ -10,13 +10,13 @@ function App() {
   const notes = [];
 
   return (
-    <>
+    <div className="App">
       <h1 className='AppName'>Build Notes</h1>
       <NoteSection></NoteSection>
       <SearchSection></SearchSection>
       <PreviousNotesSection></PreviousNotesSection>
       <ClearStorage></ClearStorage>
-    </>
+    </div>
   )
 }
 
