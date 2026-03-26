@@ -14,7 +14,7 @@ export default function SearchSection() {
                     placeholder="query1, query2, query3" 
                     required>
                 </Input>
-                <Button type="button" buttonName="Search"></Button>
+                <Button type="button">Search</Button>
             </form>
         </div>
     );

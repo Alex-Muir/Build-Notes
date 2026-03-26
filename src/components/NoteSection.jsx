@@ -32,8 +32,8 @@ export default function NoteSection() {
                     placeholder="tag1,tag2,tag3">
                 </Input>
                 <div>
-                    <Button type="submit" buttonName="Submit" handleClick={handleClick}></Button>
-                    <Button type="reset" buttonName="Reset" handleClick={handleClick}></Button>
+                    <Button type="submit" handleClick={handleClick}>Submit</Button>
+                    <Button type="reset" handleClick={handleClick}>Reset</Button>
                 </div>
             </form>
         </div>
