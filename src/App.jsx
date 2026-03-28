@@ -7,15 +7,27 @@ import ClearStorage from './components/ClearStorage.jsx';
 
 function App() {
   // State for the notes array, which contains all user notes
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState(loadNotes());
 
   // State for the id of current note. Used for viewing and editing
   const [currentNote, setCurrentNote] = useState(null);
 
-  // Effect to view changes to notes
+  // Effect to save the notes and view the updated note array in the console
   useEffect(() => {
-            console.log(notes);
-          }, [notes]);
+    localStorage.setItem("notes", JSON.stringify(notes));
+    console.log(notes);
+  }, [notes]);
+
+  // Get notes from local storage. If notes doesn't exist return an empty array
+  function loadNotes() {
+    console.log("Loading notes...")
+    const storedNotes = localStorage.getItem("notes");
+
+    if(!storedNotes) 
+        return [];
+
+    return JSON.parse(storedNotes);
+  }
 
   // Hnadles the formn submission of a note
   function handleNoteSubmit(formData) {
