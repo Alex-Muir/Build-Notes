@@ -51,13 +51,25 @@ function App() {
       id: Date.now().toString(), 
       title: title, 
       content: content, 
-      tags: tags, 
+      tags: formatTags(tags), 
       createdAt: new Date().toString(), 
       editiedAt: null
     };
   
     setNotes([...notes, note]);
   }
+
+  // Separates tags, removes whitespace and empty strings, converts tags lower case. 
+  function formatTags(tagString) {
+    if(!tagString) 
+      return []
+
+    return tagString
+        .split(",")
+        .map(tag => tag.trim())
+        .map(tag => tag.toLowerCase())
+        .filter(tag => tag !== "");
+}
 
   return (
     <div className="App">
