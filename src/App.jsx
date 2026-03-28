@@ -6,6 +6,7 @@ import PreviousNotesSection from './components/PreviousNotesSection.jsx';
 import ClearStorage from './components/ClearStorage.jsx';
 
 function App() {
+
   // State for the notes array, which contains all user notes
   const [notes, setNotes] = useState(loadNotes());
 
@@ -29,23 +30,34 @@ function App() {
     return JSON.parse(storedNotes);
   }
 
-  // Hnadles the formn submission of a note
+  // Clear notes from local storage. Reset the notes array to an empty array
+  function clearLocalStorage() {
+    if(window.confirm("You are about to delete all data. Do you want to proceed?")) {
+      localStorage.removeItem("notes");
+      setNotes([]);
+    } else {
+      return;
+    }
+    
+  }
+
+  // Handles the form submission of a note
   function handleNoteSubmit(formData) {
-          const title = formData.get("title");
-          const content = formData.get("content");
-          const tags = formData.get("tags");
+    const title = formData.get("title");
+    const content = formData.get("content");
+    const tags = formData.get("tags");
   
-          const note = {
-              id: Date.now().toString(), 
-              title: title, 
-              content: content, 
-              tags: tags, 
-              createdAt: new Date().toString(), 
-              editiedAt: null
-          };
+    const note = {
+      id: Date.now().toString(), 
+      title: title, 
+      content: content, 
+      tags: tags, 
+      createdAt: new Date().toString(), 
+      editiedAt: null
+    };
   
-          setNotes([...notes, note]);
-      }
+    setNotes([...notes, note]);
+  }
 
   return (
     <div className="App">
@@ -53,7 +65,7 @@ function App() {
       <NoteSection handleSubmit={handleNoteSubmit}></NoteSection>
       <SearchSection></SearchSection>
       <PreviousNotesSection></PreviousNotesSection>
-      <ClearStorage></ClearStorage>
+      <ClearStorage handleClear={clearLocalStorage}></ClearStorage>
     </div>
   )
 }
