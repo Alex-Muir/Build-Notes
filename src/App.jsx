@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import NoteSection from "./components/NoteSection.jsx"
+import ViewNote from './components/ViewNote.jsx';
 import SearchSection from './components/SearchSection.jsx';
 import PreviousNotesSection from './components/PreviousNotesSection.jsx';
 import ClearStorage from './components/ClearStorage.jsx';
@@ -8,16 +9,26 @@ import ClearStorage from './components/ClearStorage.jsx';
 function App() {
 
   // State for the notes array, which contains all user notes
-  const [notes, setNotes] = useState(loadNotes());
+  const [notes, setNotes] = useState(loadNotes);
 
-  // State for the id of current note. Used for viewing and editing
+  // State for the current note. Used for viewing and editing
   const [currentNote, setCurrentNote] = useState(null);
+
+  const [createMode, setCreateMode] = useState(true);
+
+  const [viewMode, setViewMode] = useState(false);
+
+  const [editMode, setEditMode] = useState(false);
 
   // Effect to save the notes and view the updated note array in the console
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
     console.log(notes);
   }, [notes]);
+
+  useEffect(() => {
+    console.log("Current Note: ", currentNote)
+  }, [currentNote]);
 
   // Get notes from local storage. If notes doesn't exist return an empty array
   function loadNotes() {
@@ -53,7 +64,7 @@ function App() {
       content: content, 
       tags: formatTags(tags), 
       createdAt: new Date().toString(), 
-      editiedAt: null
+      editedAt: null
     };
   
     setNotes([...notes, note]);
@@ -71,12 +82,21 @@ function App() {
         .filter(tag => tag !== "");
 }
 
+  function handleNoteClick(note_id) {
+    const note = notes.find((note) => note.id === note_id);
+    if(note) {setCurrentNote(note);}
+    setCreateMode(false);
+    setViewMode(true);
+    
+  }
+
   return (
     <div className="App">
       <h1 className='AppName'>Build Notes</h1>
-      <NoteSection handleSubmit={handleNoteSubmit}></NoteSection>
+      <NoteSection createModeOn={createMode} handleSubmit={handleNoteSubmit}></NoteSection>
+      <ViewNote viewModeOn={viewMode} note={currentNote}></ViewNote>
       <SearchSection></SearchSection>
-      <PreviousNotesSection></PreviousNotesSection>
+      <PreviousNotesSection listItems={notes} handleClick={handleNoteClick}></PreviousNotesSection>
       <ClearStorage handleClear={clearLocalStorage}></ClearStorage>
     </div>
   )
