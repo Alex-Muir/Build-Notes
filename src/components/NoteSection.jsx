@@ -1,7 +1,11 @@
 import Button from "./Button";
 import Input from "./Input";
 
-export default function NoteSection({ handleSubmit }) {
+export default function NoteSection({ createModeOn, handleSubmit }) {
+
+    if (!createModeOn) {
+        return null;
+    }
 
     return (
         <div className="NoteSection">
@@ -30,7 +34,7 @@ export default function NoteSection({ handleSubmit }) {
                 </Input>
                 <div>
                     <Button type="submit">Submit</Button>
-                    <Button type="reset" /*handleClick={handleClick}*/>Reset</Button>
+                    <Button type="reset">Reset</Button>
                 </div>
             </form>
         </div>
