@@ -5,15 +5,28 @@ export default function Input({
     name, 
     placeholder, 
     multiline, 
-    required
+    required, 
+    defaultValue
 }) {
     return (
         <>
             <label htmlFor={labelFor}>{label}</label>
             {multiline ? (
-                <textarea className="ContentInput" name={name} required={required}></textarea> 
+                <textarea 
+                    className="ContentInput"
+                    name={name} 
+                    required={required} 
+                    defaultValue={defaultValue}> 
+                </textarea> 
             ) : (
-                <input className="TitleAndTagInput" type={type} name={name} placeholder={placeholder} required={required} />
+                <input
+                    className="TitleAndTagInput" 
+                    type={type} 
+                    name={name} 
+                    placeholder={placeholder} 
+                    required={required} 
+                    defaultValue={defaultValue}
+                    autoComplete="off"/>
             )}
         </>
     );
