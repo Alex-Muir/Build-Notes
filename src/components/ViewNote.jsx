@@ -1,10 +1,12 @@
 import Button from "./Button.jsx"
 
-export default function ViewNote( {viewModeOn, note} ) {
+export default function ViewNote( {viewModeOn, note, handlers} ) {
 
     if(!viewModeOn) {
         return null;
     }
+
+    const [enterCreateMode, enterEditMode, deleteNote] = handlers;
 
     return (
         <div className="ViewNoteSection">
@@ -26,15 +28,15 @@ export default function ViewNote( {viewModeOn, note} ) {
                 )
             }
             <strong>Note Content:</strong>
-            <p>{note.content}</p>
+            <p className="ViewNoteContent">{note.content}</p>
             <p>
                 <strong>tags: </strong>
                 <span>{note.tags}</span>
             </p>
             <div>
-                <Button type="button">Edit Note</Button>
-                <Button type="button">Delete Note</Button>
-                <Button type="button">Create New Note</Button>
+                <Button type="button" handleClick={enterEditMode}>Edit Note</Button>
+                <Button type="button" handleClick={deleteNote}>Delete Note</Button>
+                <Button type="button" handleClick={enterCreateMode}>Create New Note</Button>
             </div>
         </div>
     );
