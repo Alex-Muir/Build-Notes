@@ -14,16 +14,21 @@
     grid-area: appName;
     text-align: center;
     align-content: center;
-    /*background-color: yellow;*/
     border-bottom: 2px solid lightblue;
 }
 
 button {
-    background-color: #F4A789;
-    border-radius: 5px;
-    border: 1px solid #C0392B;
+    background-color: #7B68C8;
+    border-radius: 8px;
+    border: 1px solid black;
     margin: 5px;
     cursor: pointer;
+    font-size: 14px;
+    padding: 6px
+}
+
+button:hover {
+    border-color: #7B68C8;
 }
 
 .ClearStorage {
@@ -32,7 +37,6 @@ button {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /*background-color: red;*/
     border-top: 2px solid lightblue;
 }
 
@@ -43,12 +47,20 @@ button {
     resize: none;
 }
 
+.ContentInput:focus {
+    outline: 2px solid lightblue
+}
+
+.EditNoteSection {
+    grid-area: notes;
+}
+
 h1, h2 {
     margin: 0;
 }
 
 li:hover {
-    color: rgb(207, 136, 240);
+    color: #7B68C8;
     cursor: pointer;
 }
 
@@ -62,12 +74,10 @@ li:hover {
 
 .NoteSection {
     grid-area: notes;
-    /*background-color: lightgreen;*/
 }
 
 .PreviousNotesSection {
     grid-area: prevNotes;
-    /*background-color: lightblue;*/
     border-right: 2px solid lightblue;
 }
 
@@ -79,7 +89,6 @@ li:hover {
 
 .SearchSection {
     grid-area: search;
-    /*background-color: pink;*/
     border-left: 2px solid lightblue;
 }
 
@@ -89,6 +98,16 @@ li:hover {
 
 .TitleAndTagInput {
     border-radius: 5px;
+}
+
+.TitleAndTagInput:focus {
+    outline: 2px solid lightblue
+}
+
+.ViewNoteContent {
+    max-width: 63ch;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 .ViewNoteSection {
