@@ -176,12 +176,32 @@ function App() {
   return (
     <div className="App">
       <h1 className='AppName'>Build Notes</h1>
-      <NoteSection createModeOn={createMode} handleSubmit={handleNoteSubmit}></NoteSection>
-      <ViewNote viewModeOn={viewMode} note={currentNote} handlers={[enterCreateMode, enterEditMode, deleteNote]}></ViewNote>
-      <EditNote editModeOn={editMode} handlers={[handleNoteSubmit, enterViewMode]} note={currentNote}></EditNote>
-      <SearchSection listItems={filteredNotes} handlers={[handleSearch, handleNoteClick, clearSearch]}></SearchSection>
-      <PreviousNotesSection listItems={notes} handleClick={handleNoteClick}></PreviousNotesSection>
-      <ClearStorage handleClear={clearLocalStorage}></ClearStorage>
+      <NoteSection 
+        createModeOn={createMode} 
+        handleSubmit={handleNoteSubmit}>
+      </NoteSection>
+      <ViewNote 
+        viewModeOn={viewMode} 
+        note={currentNote} 
+        handlers={[enterCreateMode, enterEditMode, deleteNote]}>
+      </ViewNote>
+      <EditNote 
+        editModeOn={editMode} 
+        handlers={[handleNoteSubmit, enterViewMode]} 
+        note={currentNote}>
+      </EditNote>
+      <SearchSection 
+        listItems={filteredNotes} 
+        handlers={[handleSearch, handleNoteClick, clearSearch]} 
+        value={searchQuery}>
+      </SearchSection>
+      <PreviousNotesSection 
+        listItems={notes} 
+        handleClick={handleNoteClick}>
+      </PreviousNotesSection>
+      <ClearStorage 
+        handleClear={clearLocalStorage}>
+      </ClearStorage>
     </div>
   )
 }
