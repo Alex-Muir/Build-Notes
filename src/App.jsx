@@ -15,10 +15,30 @@ function App() {
   // State for the current note. Used for viewing and editing
   const [currentNote, setCurrentNote] = useState(null);
 
+  // State for the current search query
+  const [searchQuery, setSearchQuery] = useState("");
+
   // State for each model. Create Mode is the default
   const [createMode, setCreateMode] = useState(true);
   const [viewMode, setViewMode] = useState(false);
   const [editMode, setEditMode] = useState(false);
+
+  let searchTags = formatTags(searchQuery);
+  const filteredNotes = filterNotesByQuery(searchTags);
+
+  function filterNotesByQuery(searchTags){
+    const filteredNotesArray = [];
+    for (let i = 0; i < notes.length; i++) {
+      for (let j = 0; j < searchTags.length; j++) {
+        if (notes[i].tags.some(tag => tag.includes(searchTags[j]))) {
+          filteredNotesArray.push(notes[i]);
+          break;
+        }
+      }
+    }
+    return filteredNotesArray
+  }
+  
 
   // Effect to save the notes and view the updated note array in the console
   useEffect(() => {
@@ -112,6 +132,10 @@ function App() {
     }
   }
 
+  function handleSearch(rawQueryString) {
+    setSearchQuery(rawQueryString);
+  }
+
   // Separates tags, removes whitespace and empty strings, converts tags lower case. 
   function formatTags(tagString) {
     if(!tagString) 
@@ -130,6 +154,10 @@ function App() {
     enterViewMode();
   }
 
+  function clearSearch() {
+    setSearchQuery("");
+  }
+
   function deleteNote() {
     console.log("In deleteNotes");
     const newNotes = notes.filter(note => note.id !== currentNote.id);
@@ -144,7 +172,7 @@ function App() {
       <NoteSection createModeOn={createMode} handleSubmit={handleNoteSubmit}></NoteSection>
       <ViewNote viewModeOn={viewMode} note={currentNote} handlers={[enterCreateMode, enterEditMode, deleteNote]}></ViewNote>
       <EditNote editModeOn={editMode} handlers={[handleNoteSubmit, enterViewMode]} note={currentNote}></EditNote>
-      <SearchSection></SearchSection>
+      <SearchSection listItems={filteredNotes} handlers={[handleSearch, handleNoteClick, clearSearch]}></SearchSection>
       <PreviousNotesSection listItems={notes} handleClick={handleNoteClick}></PreviousNotesSection>
       <ClearStorage handleClear={clearLocalStorage}></ClearStorage>
     </div>
