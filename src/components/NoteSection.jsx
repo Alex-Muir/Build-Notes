@@ -9,7 +9,7 @@ export default function NoteSection({ createModeOn, handleSubmit }) {
 
     return (
         <div className="NoteSection">
-            <h2 className="SectionName">New Note</h2>
+            <h2 className="SectionName">{createModeOn && "New Note"}</h2>
             <form action={handleSubmit} className="NoteForm">
                 <Input 
                     labelFor="title"
