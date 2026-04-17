@@ -90,6 +90,12 @@ li:hover {
     flex-direction: column;
 }
 
+.SearchResults {
+    flex: 1;
+    overflow-y: auto;
+    align-self: stretch;
+}
+
 .SearchSection {
     grid-area: search;
     border-left: 2px solid lightblue;
@@ -97,7 +103,6 @@ li:hover {
     flex-direction: column;
     align-items: center;
     height: 80vh;
-    overflow-y: auto;
 }
 
 .SectionName {

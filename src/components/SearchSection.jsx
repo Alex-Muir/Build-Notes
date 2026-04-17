@@ -1,7 +1,7 @@
 import Button from "./Button";
 import Input from "./Input";
 
-export default function SearchSection({ listItems, handlers }) {
+export default function SearchSection({ listItems, handlers, value }) {
 
     const [handleSearch, handleNoteClick, clearSearch] = handlers;
 
@@ -16,10 +16,11 @@ export default function SearchSection({ listItems, handlers }) {
                 label="Search (Separate by comma)" 
                 type="search"  
                 placeholder="query1, query2, query3"
+                value={value}
                 onChange={(e) => handleSearch(e.target.value)}>
             </Input>
             <Button type="button" handleClick={clearSearch}>Clear</Button>
-            <ul>{listOfResults}</ul>
+            <ul className="SearchResults">{listOfResults}</ul>
         </div>
     );
 }
