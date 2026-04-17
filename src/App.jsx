@@ -104,9 +104,9 @@ function App() {
         id: currentNote.id,
         title: title,
         content: content,
-        tags: tags,
+        tags: formatTags(tags),
         createdAt: currentNote.createdAt,
-        editedAt: new Date().toString()
+        editedAt: getFormattedDate()
       };
 
       setCurrentNote(editedNote);
@@ -121,11 +121,11 @@ function App() {
       setNotes(updatedNotes);
     } else {
       newNote = {
-        id: Date.now().toString(), 
+        id: crypto.randomUUID(), 
         title: title, 
         content: content, 
         tags: formatTags(tags), 
-        createdAt: new Date().toString(), 
+        createdAt: getFormattedDate(), 
         editedAt: null
       };
       setNotes([...notes, newNote]);
@@ -159,11 +159,18 @@ function App() {
   }
 
   function deleteNote() {
-    console.log("In deleteNotes");
-    const newNotes = notes.filter(note => note.id !== currentNote.id);
-    setNotes(newNotes);
-    setCurrentNote(null);
-    enterCreateMode();
+    if(window.confirm("Are you sure you want to delete this note?")){
+      const newNotes = notes.filter(note => note.id !== currentNote.id);
+      setNotes(newNotes);
+      setCurrentNote(null);
+      enterCreateMode();
+    }
+  }
+
+  function getFormattedDate() {
+    const d = new Date();
+    const dateString = d.toDateString() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds(); 
+    return dateString;
   }
 
   return (
