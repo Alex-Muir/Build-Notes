@@ -10,7 +10,7 @@ export default function EditNote( {editModeOn, handlers, note} ) {
     // !! Need to create an edit submit function !!
     return (
         <div className="EditNoteSection">
-            <h2 className="SectionName">New Note</h2>
+            <h2 className="SectionName">{editModeOn && "Edit Note"}</h2>
             <form action={handleEditNote} className="NoteForm">
                 <Input 
                     labelFor="title"
