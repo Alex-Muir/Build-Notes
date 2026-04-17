@@ -6,7 +6,8 @@ export default function Input({
     placeholder, 
     multiline, 
     required, 
-    defaultValue
+    defaultValue,
+    onChange
 }) {
     return (
         <>
@@ -26,6 +27,7 @@ export default function Input({
                     placeholder={placeholder} 
                     required={required} 
                     defaultValue={defaultValue}
+                    onChange={onChange}
                     autoComplete="off"/>
             )}
         </>
