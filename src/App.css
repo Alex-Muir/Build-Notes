@@ -74,22 +74,24 @@ li:hover {
 
 .NoteSection {
     grid-area: notes;
+    height: 80vh;
 }
 
 .PreviousNotesSection {
     grid-area: prevNotes;
     border-right: 2px solid lightblue;
-}
-
-.SearchForm {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    height: 80vh;
+    overflow-y: auto;
 }
 
 .SearchSection {
     grid-area: search;
     border-left: 2px solid lightblue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 80vh;
+    overflow-y: auto;
 }
 
 .SectionName {
