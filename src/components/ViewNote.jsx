@@ -31,7 +31,7 @@ export default function ViewNote( {viewModeOn, note, handlers} ) {
             <p className="ViewNoteContent">{note.content}</p>
             <p>
                 <strong>tags: </strong>
-                <span>{note.tags}</span>
+                <span>{note.tags.join(", ")}</span>
             </p>
             <div>
                 <Button type="button" handleClick={enterEditMode}>Edit Note</Button>
