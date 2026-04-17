@@ -77,11 +77,17 @@ li:hover {
     height: 80vh;
 }
 
+.PreviousNotesList {
+    overflow-y: auto;
+    flex: 1;
+}
+
 .PreviousNotesSection {
     grid-area: prevNotes;
     border-right: 2px solid lightblue;
     height: 80vh;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .SearchSection {

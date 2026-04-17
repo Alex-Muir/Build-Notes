@@ -7,7 +7,7 @@ export default function PreviousNotesSection( {listItems, handleClick}) {
     return (
         <div className="PreviousNotesSection">
             <h2 className="SectionName">Previous Notes</h2>
-            <ol>{listOfNotes}</ol>
+            <ol className="PreviousNotesList">{listOfNotes}</ol>
         </div>
     )
 }
