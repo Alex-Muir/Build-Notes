@@ -1,0 +1,133 @@
+.App {
+    display: grid;
+    grid-template-areas: 
+        'appName appName appName'
+        'prevNotes notes search'
+        'clear clear clear';
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr) minmax(0, 1fr);
+    grid-template-rows: 1fr 8fr 1fr;
+    height: 100%;
+    gap: 10px;
+}
+
+.AppName {
+    grid-area: appName;
+    text-align: center;
+    align-content: center;
+    border-bottom: 2px solid lightblue;
+}
+
+button {
+    background-color: #7B68C8;
+    border-radius: 8px;
+    border: 1px solid black;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 6px
+}
+
+button:hover {
+    border-color: #7B68C8;
+}
+
+.ClearStorage {
+    grid-area: clear;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-top: 2px solid lightblue;
+}
+
+.ContentInput {
+    border-radius: 5px;
+    height: 70%;
+    width: 40%;
+    resize: none;
+}
+
+.ContentInput:focus {
+    outline: 2px solid lightblue
+}
+
+.EditNoteSection {
+    grid-area: notes;
+}
+
+h1, h2 {
+    margin: 0;
+}
+
+li:hover {
+    color: #7B68C8;
+    cursor: pointer;
+}
+
+.NoteForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    height: 100%;
+}
+
+.NoteSection {
+    grid-area: notes;
+    height: 80vh;
+}
+
+.PreviousNotesList {
+    overflow-y: auto;
+    flex: 1;
+}
+
+.PreviousNotesSection {
+    grid-area: prevNotes;
+    border-right: 2px solid lightblue;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.SearchResults {
+    flex: 1;
+    overflow-y: auto;
+    align-self: stretch;
+}
+
+.SearchSection {
+    grid-area: search;
+    border-left: 2px solid lightblue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 80vh;
+}
+
+.SectionName {
+    text-align: center;
+}
+
+.TitleAndTagInput {
+    border-radius: 5px;
+}
+
+.TitleAndTagInput:focus {
+    outline: 2px solid lightblue
+}
+
+.ViewNoteContent {
+    max-width: 63ch;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.ViewNoteSection {
+    grid-area: notes;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height:80vh;
+    overflow-y: auto;
+}
