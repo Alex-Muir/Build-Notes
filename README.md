@@ -59,5 +59,5 @@ At the bottom of the page is the 'Clear All Notes' button. If this button is pre
 ![clearStorage](images/clearStorage.png)
 
 ## License
-GNU General Public License
+GNU General Public License v3.0
 
