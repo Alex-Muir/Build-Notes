@@ -27,7 +27,8 @@ Clone the repository or download the zip folder and extract it.
 ### Running Build Notes
 Ensure that Node.js has been installed. Navigate to the Build Notes directory. Once inside the directory open a terminal and run:
 
- `npm install` 
+ `npm install`   
+ 
  `npm run dev` 
  
  Open the local URL shown in the terminal (e.g. `http://localhost:5173`)
