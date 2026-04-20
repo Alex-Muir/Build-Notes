@@ -24,7 +24,8 @@ button {
     margin: 5px;
     cursor: pointer;
     font-size: 14px;
-    padding: 6px
+    padding: 6px;
+    color: #FBFBFE
 }
 
 button:hover {
@@ -45,6 +46,8 @@ button:hover {
     height: 70%;
     width: 40%;
     resize: none;
+    background-color: #2B2A33;
+    color: #FBFBFE
 }
 
 .ContentInput:focus {
@@ -111,10 +114,16 @@ li:hover {
 
 .TitleAndTagInput {
     border-radius: 5px;
+    background-color: #2B2A33;
+    color: #FBFBFE
 }
 
 .TitleAndTagInput:focus {
-    outline: 2px solid lightblue
+    outline: 2px solid lightblue;
+}
+
+.TitleAndTagInput::placeholder {
+  color: #AAAAAA;
 }
 
 .ViewNoteContent {
