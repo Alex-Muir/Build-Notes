@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import NoteSection from "./components/NoteSection.jsx"
-import ViewNote from './components/ViewNote.jsx';
-import EditNote from './components/EditNote.jsx';
-import SearchSection from './components/SearchSection.jsx';
-import PreviousNotesSection from './components/PreviousNotesSection.jsx';
-import ClearStorage from './components/ClearStorage.jsx';
-import type { Note } from './components/types.js';
+import NoteSection from "./components/NoteSection.tsx"
+import ViewNote from './components/ViewNote.tsx';
+import EditNote from './components/EditNote.tsx';
+import SearchSection from './components/SearchSection.tsx';
+import PreviousNotesSection from './components/PreviousNotesSection.tsx';
+import ClearStorage from './components/ClearStorage.tsx';
+import type { Note } from './components/types.ts';
 
 function App() {
 
