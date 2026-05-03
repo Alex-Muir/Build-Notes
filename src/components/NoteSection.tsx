@@ -1,7 +1,12 @@
 import Button from "./Button";
 import Input from "./Input";
 
-export default function NoteSection({ createModeOn, handleSubmit }) {
+interface NoteSectionProps {
+    createModeOn: boolean
+    handleSubmit: (formData: FormData) => void
+}
+
+export default function NoteSection({ createModeOn, handleSubmit }: NoteSectionProps) {
 
     if (!createModeOn) {
         return null;

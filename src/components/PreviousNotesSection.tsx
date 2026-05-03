@@ -1,6 +1,13 @@
-export default function PreviousNotesSection( {listItems, handleClick}) {
+import type { Note } from "./types"
+
+interface PreviousNoteSectionProps {
+    listItems: Note[]
+    handleClick: (value: string) => void
+}
+
+export default function PreviousNotesSection( {listItems, handleClick} : PreviousNoteSectionProps) {
     
-    const listOfNotes = listItems.map(item => 
+    const listOfNotes: React.ReactNode[] = listItems.map(item => 
         <li key={item.id} onClick={() => {handleClick(item.id)}}>{item.title}</li>
     )
 

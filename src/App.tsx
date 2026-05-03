@@ -6,14 +6,15 @@ import EditNote from './components/EditNote.jsx';
 import SearchSection from './components/SearchSection.jsx';
 import PreviousNotesSection from './components/PreviousNotesSection.jsx';
 import ClearStorage from './components/ClearStorage.jsx';
+import type { Note } from './components/types.js';
 
 function App() {
 
   // State for the notes array, which contains all user notes
-  const [notes, setNotes] = useState(loadNotes);
+  const [notes, setNotes] = useState<Note[]>(loadNotes);
 
   // State for the current note. Used for viewing and editing
-  const [currentNote, setCurrentNote] = useState(null);
+  const [currentNote, setCurrentNote] = useState<Note| null>(null);
 
   // State for the current search query
   const [searchQuery, setSearchQuery] = useState("");
@@ -26,8 +27,8 @@ function App() {
   let searchTags = formatTags(searchQuery);
   const filteredNotes = filterNotesByQuery(searchTags);
 
-  function filterNotesByQuery(searchTags){
-    const filteredNotesArray = [];
+  function filterNotesByQuery(searchTags: string[]): Note[]{
+    const filteredNotesArray: Note[] = [];
     for (let i = 0; i < notes.length; i++) {
       for (let j = 0; j < searchTags.length; j++) {
         if (notes[i].tags.some(tag => tag.includes(searchTags[j]))) {
@@ -91,13 +92,13 @@ function App() {
   }
 
   // Handles the form submission of a note
-  function handleNoteSubmit(formData) {
-    const title = formData.get("title");
-    const content = formData.get("content");
-    const tags = formData.get("tags");
+  function handleNoteSubmit(formData: FormData) : void {
+    const title = formData.get("title") as string;
+    const content = formData.get("content") as string;
+    const tags = formData.get("tags") as string;
     
-    let newNote = null;
-    let editedNote = null;
+    let newNote: Note | null = null;
+    let editedNote: Note | null = null;
 
     if(currentNote) {
       editedNote = {
@@ -111,9 +112,9 @@ function App() {
 
       setCurrentNote(editedNote);
       enterViewMode();
-      const updatedNotes = notes.map( note => {
+      const updatedNotes: Note[] = notes.map( note => {
         if(note.id === currentNote.id) {
-          return editedNote;
+          return editedNote!;
         } else {
           return note;
         }
@@ -132,12 +133,12 @@ function App() {
     }
   }
 
-  function handleSearch(rawQueryString) {
+  function handleSearch(rawQueryString: string) : void {
     setSearchQuery(rawQueryString);
   }
 
   // Separates tags, removes whitespace and empty strings, converts tags lower case. 
-  function formatTags(tagString) {
+  function formatTags(tagString: string) : string[] {
     if(!tagString) 
       return []
 
@@ -148,26 +149,26 @@ function App() {
         .filter(tag => tag !== "");
 }
 
-  function handleNoteClick(note_id) {
+  function handleNoteClick(note_id: string) : void {
     const note = notes.find((note) => note.id === note_id);
     if(note) {setCurrentNote(note);}
     enterViewMode();
   }
 
-  function clearSearch() {
+  function clearSearch() : void {
     setSearchQuery("");
   }
 
-  function deleteNote() {
+  function deleteNote() : void {
     if(window.confirm("Are you sure you want to delete this note?")){
-      const newNotes = notes.filter(note => note.id !== currentNote.id);
+      const newNotes: Note[] = notes.filter(note => note.id !== currentNote!.id);
       setNotes(newNotes);
       setCurrentNote(null);
       enterCreateMode();
     }
   }
 
-  function getFormattedDate() {
+  function getFormattedDate() : string {
     const d = new Date();
     const dateString = d.toDateString() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds(); 
     return dateString;
@@ -182,13 +183,13 @@ function App() {
       </NoteSection>
       <ViewNote 
         viewModeOn={viewMode} 
-        note={currentNote} 
+        note={currentNote!} 
         handlers={[enterCreateMode, enterEditMode, deleteNote]}>
       </ViewNote>
       <EditNote 
         editModeOn={editMode} 
         handlers={[handleNoteSubmit, enterViewMode]} 
-        note={currentNote}>
+        note={currentNote!}>
       </EditNote>
       <SearchSection 
         listItems={filteredNotes} 
