@@ -4,7 +4,7 @@
 ![Build Notes image](images/buildNotes.png)
 
 ## About
-Build Notes was built as a learning project to develop foundational skills in HTML, CSS, and JavaScript, and has since been migrated to React. It is intended to serve as a starting point for a more fully featured application, with plans to eventually migrate to TypeScript, Supabase, and Next.js.
+Build Notes was built as a learning project to develop foundational skills in HTML, CSS, and JavaScript, and has since been migrated to React and Typescript. It is intended to serve as a starting point for a more fully featured application, with plans to eventually migrate to Supabase, and Next.js.
 
 ## Features
 - Create note
@@ -14,7 +14,7 @@ Build Notes was built as a learning project to develop foundational skills in HT
 - Persistent data via localStorage 
 
 ## Technologies Used
-- HTML, CSS, JavaScript, React
+- HTML, CSS, Typescript, React
 
 ## Getting Started
 
