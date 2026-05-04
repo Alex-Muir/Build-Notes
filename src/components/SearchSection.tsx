@@ -1,7 +1,14 @@
 import Button from "./Button";
 import Input from "./Input";
+import type { Note } from "./types";
 
-export default function SearchSection({ listItems, handlers, value }) {
+interface SearchSectionProps {
+    listItems: Note[]
+    handlers: [(value: string) => void, (note_id: string) => void, () => void]
+    value: string
+}
+
+export default function SearchSection({ listItems, handlers, value } : SearchSectionProps) {
 
     const [handleSearch, handleNoteClick, clearSearch] = handlers;
 
@@ -17,7 +24,7 @@ export default function SearchSection({ listItems, handlers, value }) {
                 type="search"  
                 placeholder="query1, query2, query3"
                 value={value}
-                onChange={(e) => handleSearch(e.target.value)}>
+                onChange={handleSearch}>
             </Input>
             <Button type="button" handleClick={clearSearch}>Clear</Button>
             <ul className="SearchResults">{listOfResults}</ul>

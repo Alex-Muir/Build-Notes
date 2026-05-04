@@ -1,3 +1,16 @@
+interface InputProps {
+    labelFor?: string
+    label: string
+    type?: string
+    name?: string
+    placeholder?: string
+    multiline?: boolean
+    required?: boolean
+    defaultValue?: string
+    onChange?: (value: string) => void
+    value?: string
+}
+
 export default function Input({
     labelFor, 
     label, 
@@ -9,7 +22,7 @@ export default function Input({
     defaultValue,
     onChange,
     value
-}) {
+}: InputProps) {
     return (
         <>
             <label htmlFor={labelFor}>{label}</label>
@@ -28,7 +41,7 @@ export default function Input({
                     placeholder={placeholder} 
                     required={required} 
                     defaultValue={defaultValue}
-                    onChange={onChange}
+                    onChange={onChange ? e => onChange(e.target.value) : undefined}
                     autoComplete="off"
                     value={value}/>
             )}

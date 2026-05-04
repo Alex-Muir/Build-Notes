@@ -1,6 +1,10 @@
 import Button from "./Button";
 
-export default function ClearStorage({ handleClear }) {
+interface ClearStorageProps {
+    handleClear: () => void
+}
+
+export default function ClearStorage({ handleClear } : ClearStorageProps) {
     return (
         <div className="ClearStorage">
             <h2 className="SectionName">Clear Local Storage</h2>

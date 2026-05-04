@@ -1,6 +1,13 @@
 import Button from "./Button.jsx"
+import type { Note } from "./types.js";
 
-export default function ViewNote( {viewModeOn, note, handlers} ) {
+interface ViewNoteProps {
+    viewModeOn: boolean
+    note: Note
+    handlers: [() => void, () => void, () => void]
+}
+
+export default function ViewNote( {viewModeOn, note, handlers} : ViewNoteProps ) {
 
     if(!viewModeOn) {
         return null;

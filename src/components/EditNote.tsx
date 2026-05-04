@@ -1,7 +1,14 @@
 import Button from "./Button";
 import Input from "./Input";
+import type { Note } from "./types";
 
-export default function EditNote( {editModeOn, handlers, note} ) {
+interface EditNoteProps {
+    editModeOn: boolean
+    handlers: [(formData: FormData) => void, () => void]
+    note: Note
+}
+
+export default function EditNote( {editModeOn, handlers, note} : EditNoteProps) {
     if(!editModeOn) {
         return null;
     }
@@ -34,7 +41,7 @@ export default function EditNote( {editModeOn, handlers, note} ) {
                     type="text"
                     name="tags"
                     placeholder="tag1,tag2,tag3"
-                    defaultValue={note.tags}>
+                    defaultValue={note.tags.join(", ")}>
                 </Input>
                 <div>
                     <Button type="submit">Save Changes</Button>
