@@ -19,11 +19,7 @@ function App() {
   // State for the current search query
   const [searchQuery, setSearchQuery] = useState("");
 
-  // State for each model. Create Mode is the default
-  // const [createMode, setCreateMode] = useState(true);
-  // const [viewMode, setViewMode] = useState(false);
-  // const [editMode, setEditMode] = useState(false);
-
+  // State for AppMode. Create Mode is the default
   const [mode, setMode] = useState<AppMode>("create");
 
   let searchTags = formatTags(searchQuery);
@@ -42,7 +38,6 @@ function App() {
     return filteredNotesArray
   }
   
-
   // Effect to save the notes and view the updated note array in the console
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
@@ -70,29 +65,21 @@ function App() {
     if(window.confirm("You are about to delete all data. Do you want to proceed?")) {
       localStorage.removeItem("notes");
       setNotes([]);
+      clearSearch();
       enterCreateMode();
     }
   }
 
   function enterCreateMode() {
     setCurrentNote(null);
-    // setCreateMode(true);
-    // setViewMode(false);
-    // setEditMode(false);
     setMode("create");
   }
 
   function enterViewMode() {
-    // setCreateMode(false);
-    // setEditMode(false);
-    // setViewMode(true);
     setMode("view");
   }
 
   function enterEditMode() {
-    // setCreateMode(false);
-    // setViewMode(false);
-    // setEditMode(true);
     setMode("edit");
   }
 
