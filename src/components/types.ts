@@ -6,3 +6,5 @@ export interface Note {
   createdAt: string
   editedAt: string | null
 }
+
+export type AppMode = "create" | "view" | "edit";

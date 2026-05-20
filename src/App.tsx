@@ -6,7 +6,7 @@ import EditNote from './components/EditNote.tsx';
 import SearchSection from './components/SearchSection.tsx';
 import PreviousNotesSection from './components/PreviousNotesSection.tsx';
 import ClearStorage from './components/ClearStorage.tsx';
-import type { Note } from './components/types.ts';
+import type { Note, AppMode } from './components/types.ts';
 
 function App() {
 
@@ -20,9 +20,11 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
 
   // State for each model. Create Mode is the default
-  const [createMode, setCreateMode] = useState(true);
-  const [viewMode, setViewMode] = useState(false);
-  const [editMode, setEditMode] = useState(false);
+  // const [createMode, setCreateMode] = useState(true);
+  // const [viewMode, setViewMode] = useState(false);
+  // const [editMode, setEditMode] = useState(false);
+
+  const [mode, setMode] = useState<AppMode>("create");
 
   let searchTags = formatTags(searchQuery);
   const filteredNotes = filterNotesByQuery(searchTags);
@@ -74,21 +76,24 @@ function App() {
 
   function enterCreateMode() {
     setCurrentNote(null);
-    setCreateMode(true);
-    setViewMode(false);
-    setEditMode(false);
+    // setCreateMode(true);
+    // setViewMode(false);
+    // setEditMode(false);
+    setMode("create");
   }
 
   function enterViewMode() {
-    setCreateMode(false);
-    setEditMode(false);
-    setViewMode(true);
+    // setCreateMode(false);
+    // setEditMode(false);
+    // setViewMode(true);
+    setMode("view");
   }
 
   function enterEditMode() {
-    setCreateMode(false);
-    setViewMode(false);
-    setEditMode(true);
+    // setCreateMode(false);
+    // setViewMode(false);
+    // setEditMode(true);
+    setMode("edit");
   }
 
   // Handles the form submission of a note
@@ -178,16 +183,16 @@ function App() {
     <div className="App">
       <h1 className='AppName'>Build Notes</h1>
       <NoteSection 
-        createModeOn={createMode} 
+        createModeOn={mode === "create"} 
         handleSubmit={handleNoteSubmit}>
       </NoteSection>
       <ViewNote 
-        viewModeOn={viewMode} 
+        viewModeOn={mode === "view"} 
         note={currentNote!} 
         handlers={[enterCreateMode, enterEditMode, deleteNote]}>
       </ViewNote>
       <EditNote 
-        editModeOn={editMode} 
+        editModeOn={mode === "edit"} 
         handlers={[handleNoteSubmit, enterViewMode]} 
         note={currentNote!}>
       </EditNote>
