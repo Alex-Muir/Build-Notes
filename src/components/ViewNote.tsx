@@ -4,16 +4,18 @@ import type { Note } from "./types.js";
 interface ViewNoteProps {
     viewModeOn: boolean
     note: Note
-    handlers: [() => void, () => void, () => void]
+    onCreate: () => void
+    onEdit: () => void
+    onDelete: ()=> void
 }
 
-export default function ViewNote( {viewModeOn, note, handlers} : ViewNoteProps ) {
+export default function ViewNote( {viewModeOn, note, onCreate, onEdit, onDelete} : ViewNoteProps ) {
 
     if(!viewModeOn) {
         return null;
     }
 
-    const [enterCreateMode, enterEditMode, deleteNote] = handlers;
+    //const [enterCreateMode, enterEditMode, deleteNote] = handlers;
 
     return (
         <div className="ViewNoteSection">
@@ -41,9 +43,9 @@ export default function ViewNote( {viewModeOn, note, handlers} : ViewNoteProps )
                 <span>{note.tags.join(", ")}</span>
             </p>
             <div>
-                <Button type="button" handleClick={enterEditMode}>Edit Note</Button>
-                <Button type="button" handleClick={deleteNote}>Delete Note</Button>
-                <Button type="button" handleClick={enterCreateMode}>Create New Note</Button>
+                <Button type="button" handleClick={onEdit}>Edit Note</Button>
+                <Button type="button" handleClick={onDelete}>Delete Note</Button>
+                <Button type="button" handleClick={onCreate}>Create New Note</Button>
             </div>
         </div>
     );

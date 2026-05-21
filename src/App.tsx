@@ -176,17 +176,23 @@ function App() {
       <ViewNote 
         viewModeOn={mode === "view"} 
         note={currentNote!} 
-        handlers={[enterCreateMode, enterEditMode, deleteNote]}>
+        onCreate={enterCreateMode}
+        onEdit={enterEditMode}
+        onDelete={deleteNote}
+        >
       </ViewNote>
       <EditNote 
         editModeOn={mode === "edit"} 
-        handlers={[handleNoteSubmit, enterViewMode]} 
-        note={currentNote!}>
+        note={currentNote!}
+        cancelEditNote={enterViewMode}
+        handleEditNote={handleNoteSubmit}>
       </EditNote>
       <SearchSection 
         listItems={filteredNotes} 
-        handlers={[handleSearch, handleNoteClick, clearSearch]} 
-        value={searchQuery}>
+        value={searchQuery}
+        handleNoteClick={handleNoteClick}
+        handleSearch={handleSearch}
+        handleClearSearch={clearSearch}>
       </SearchSection>
       <PreviousNotesSection 
         listItems={notes} 

@@ -4,13 +4,14 @@ import type { Note } from "./types";
 
 interface SearchSectionProps {
     listItems: Note[]
-    handlers: [(value: string) => void, (note_id: string) => void, () => void]
     value: string
+    handleSearch: (rawQueryString: string) => void
+    handleNoteClick: (note_id: string) => void
+    handleClearSearch: () => void
 }
 
-export default function SearchSection({ listItems, handlers, value } : SearchSectionProps) {
+export default function SearchSection({ listItems, value, handleSearch, handleNoteClick, handleClearSearch } : SearchSectionProps) {
 
-    const [handleSearch, handleNoteClick, clearSearch] = handlers;
 
     const listOfResults = listItems.map(item => 
         <li key={item.id} onClick={() => {handleNoteClick(item.id)}}>{item.title}</li>
@@ -26,7 +27,7 @@ export default function SearchSection({ listItems, handlers, value } : SearchSec
                 value={value}
                 onChange={handleSearch}>
             </Input>
-            <Button type="button" handleClick={clearSearch}>Clear</Button>
+            <Button type="button" handleClick={handleClearSearch}>Clear</Button>
             <ul className="SearchResults">{listOfResults}</ul>
         </div>
     );

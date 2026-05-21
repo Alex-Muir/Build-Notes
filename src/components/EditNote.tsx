@@ -4,17 +4,16 @@ import type { Note } from "./types";
 
 interface EditNoteProps {
     editModeOn: boolean
-    handlers: [(formData: FormData) => void, () => void]
     note: Note
+    cancelEditNote: () => void
+    handleEditNote: (formData: FormData) => void
 }
 
-export default function EditNote( {editModeOn, handlers, note} : EditNoteProps) {
+export default function EditNote( {editModeOn, note, cancelEditNote, handleEditNote} : EditNoteProps) {
     if(!editModeOn) {
         return null;
     }
-
-    const[handleEditNote, cancelEditNote] = handlers;    
-    // !! Need to create an edit submit function !!
+ 
     return (
         <div className="EditNoteSection">
             <h2 className="SectionName">{editModeOn && "Edit Note"}</h2>
