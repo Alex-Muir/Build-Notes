@@ -13,6 +13,8 @@ function App() {
   // State for the notes array, which contains all user notes
   const [notes, setNotes] = useState<Note[]>(loadNotes);
 
+  const [titleSet, setTitleSet] = useState<Set<string>>(getTitlesFromNotes);
+
   // State for the current note. Used for viewing and editing
   const [currentNote, setCurrentNote] = useState<Note| null>(null);
 
@@ -49,6 +51,10 @@ function App() {
     console.log("Current Note: ", currentNote)
   }, [currentNote]);
 
+  useEffect(() => {
+    console.log(titleSet);
+  }, [titleSet]);
+
   // Get notes from local storage. If notes doesn't exist return an empty array
   function loadNotes() {
     console.log("Loading notes...")
@@ -60,14 +66,38 @@ function App() {
     return JSON.parse(storedNotes);
   }
 
+  function getTitlesFromNotes(): Set<string> {
+     const titleSet: Set<string> = new Set();
+     if (notes) {
+      for (const note of notes) {
+        titleSet.add(note.title);
+      }
+     }
+
+     return titleSet
+  }
+
   // Clear notes from local storage. Reset the notes array to an empty array
   function clearLocalStorage() {
     if(window.confirm("You are about to delete all data. Do you want to proceed?")) {
       localStorage.removeItem("notes");
       setNotes([]);
+      setTitleSet(new Set());
       clearSearch();
       enterCreateMode();
     }
+  }
+
+  function addTitleToSet(title: string): void {
+    setTitleSet(prev => new Set([...prev, title]));
+  }
+
+  function removeTitleFromSet(title: string): void {
+    setTitleSet(prev => {
+      const next = new Set(prev);
+      next.delete(title);
+      return next;
+    });
   }
 
   function enterCreateMode() {
@@ -85,14 +115,26 @@ function App() {
 
   // Handles the form submission of a note
   function handleNoteSubmit(formData: FormData) : void {
-    const title = formData.get("title") as string;
-    const content = formData.get("content") as string;
+    let title = formData.get("title") as string;
+    let content = formData.get("content") as string;
     const tags = formData.get("tags") as string;
+
+    title = title.trim();
+    content = content.trim();
+
+    while(titleSet.has(title) && title !== currentNote?.title) {
+      const input = prompt("Title already exists. Please pick a different title.");
+      if(input === null) {
+        return;
+      }
+      title = input.trim();
+    }
     
     let newNote: Note | null = null;
     let editedNote: Note | null = null;
 
     if(currentNote) {
+      removeTitleFromSet(currentNote.title);
       editedNote = {
         id: currentNote.id,
         title: title,
@@ -103,7 +145,9 @@ function App() {
       };
 
       setCurrentNote(editedNote);
+      addTitleToSet(title);
       enterViewMode();
+
       const updatedNotes: Note[] = notes.map( note => {
         if(note.id === currentNote.id) {
           return editedNote!;
@@ -111,7 +155,9 @@ function App() {
           return note;
         }
       });
+
       setNotes(updatedNotes);
+
     } else {
       newNote = {
         id: crypto.randomUUID(), 
@@ -121,6 +167,7 @@ function App() {
         createdAt: getFormattedDate(), 
         editedAt: null
       };
+      addTitleToSet(newNote.title);
       setNotes([...notes, newNote]);
     }
   }
@@ -153,6 +200,7 @@ function App() {
 
   function deleteNote() : void {
     if(window.confirm("Are you sure you want to delete this note?")){
+      removeTitleFromSet(currentNote!.title);
       const newNotes: Note[] = notes.filter(note => note.id !== currentNote!.id);
       setNotes(newNotes);
       setCurrentNote(null);
