@@ -123,7 +123,8 @@ function App() {
     content = content.trim();
 
     while(titleSet.has(title) && title !== currentNote?.title) {
-      const input = prompt("Title already exists. Please pick a different title.");
+      const input = prompt(
+        "Title already exists. Please pick a different title.\nIf cancel is selected the current note will be erased.");
       if(input === null) {
         return;
       }
