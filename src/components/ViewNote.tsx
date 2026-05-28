@@ -9,13 +9,24 @@ interface ViewNoteProps {
     onDelete: ()=> void
 }
 
+function formatDateForDisplay(isoString: string): string {
+    return new Intl.DateTimeFormat("en-US", {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true,
+    }).format(new Date(isoString));
+}
+
 export default function ViewNote( {viewModeOn, note, onCreate, onEdit, onDelete} : ViewNoteProps ) {
 
     if(!viewModeOn) {
         return null;
     }
 
-    //const [enterCreateMode, enterEditMode, deleteNote] = handlers;
 
     return (
         <div className="ViewNoteSection">
@@ -26,13 +37,13 @@ export default function ViewNote( {viewModeOn, note, onCreate, onEdit, onDelete}
             </p>
             <p>
                 <strong>Date Created: </strong>
-                <span>{note.createdAt}</span>
+                <span>{formatDateForDisplay(note.createdAt)}</span>
             </p>
             {
                 note.editedAt && (
                     <p>
                         <strong>Last Edited: </strong>
-                        <span>{note.editedAt}</span>
+                        <span>{formatDateForDisplay(note.editedAt)}</span>
                     </p>
                 )
             }

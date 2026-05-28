@@ -214,9 +214,7 @@ function App() {
   }
 
   function getFormattedDate() : string {
-    const d = new Date();
-    const dateString = d.toDateString() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds(); 
-    return dateString;
+    return new Date().toISOString();
   }
 
   return (
