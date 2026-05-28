@@ -57,13 +57,17 @@ function App() {
 
   // Get notes from local storage. If notes doesn't exist return an empty array
   function loadNotes() {
-    console.log("Loading notes...")
     const storedNotes = localStorage.getItem("notes");
 
     if(!storedNotes) 
-        return [];
+      return [];
 
-    return JSON.parse(storedNotes);
+    try {
+      return JSON.parse(storedNotes) as Note[];
+    } catch {
+      console.error("Failed to parse notes from localStorage");
+      return [];
+    }
   }
 
   function getTitlesFromNotes(): Set<string> {
